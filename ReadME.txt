@@ -9,7 +9,8 @@
 	* 기존 board 코드를 그대로 가져왔기 때문에 html 페이지를 수정해주어야 함.
 
 jungin-2 : package : com.kurly 
-	   product/productdetail 수정
+	   product/productdetail 수정 (상품상세)
+	   cart/cartlist (장바구니 화면)
 	   CartVO, CartController, CartController, CartVO, CartMapper, CartService, CartServiceImpl 추가
 	   장바구니 기능 구현 완료
 	   
