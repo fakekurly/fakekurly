@@ -1,0 +1,8 @@
+11/28 11:42
+	* 회원가입: /member/signup
+	* 로그인: /member/login
+		- 비밀번호 암호화가 적용되어 있기 때문에 회원가입으로 계정 생성 후 테스트 할 것.
+		- 로그인에 성공하면 /userManage/welcome 경로로 이동 (AuthSucessHandler.java)
+		- /userManage/welcome 페이지는 현재 뷰가 없고 Controller에서 userid, username만 세션에 등록하는 POST 함수만 있음
+		- 나중에 페이지를 추가하거나 경로를 바꿀 것.
+		- html에서 세션 가져오기: <태그 속성="${session.userid}"> [[${session.username}]]님 </태그>
