@@ -2,15 +2,12 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-<mapper namespace="com.board.mapper.ProductMapper">
+<mapper namespace="com.kurly.mapper.ProductMapper">
 
-<!-- FakeKurly :: 상품 정보 가져오기, 상품 카트에 담기, 결제 -->
-
-
-<!-- 상품 한 개의 모든 정보를 가져옴 -->
-<select id="getProductDetail" parameterType="int" resultType="com.board.dto.ProductVO">
-	select * from tbl_product where pcode=#{pcode}
+<!-- 상품상세정보 보기 -->
+<select id="productdetail" parameterType="int" resultType="com.kurly.dto.ProductVO">
+	select pcode, pname, company, price, stock, description, postscript from tbl_product where pcode = #{pcode}
 </select>
+
 
 </mapper>
