@@ -7,3 +7,9 @@
 		- 나중에 페이지를 추가하거나 경로를 바꿀 것.
 		- html에서 세션 가져오기: <태그 속성="${session.userid}"> [[${session.username}]]님 </태그>
 	* 기존 board 코드를 그대로 가져왔기 때문에 html 페이지를 수정해주어야 함.
+
+jungin-2 : package : com.kurly 
+	   product/productdetail 수정
+	   CartVO, CartController, CartController, CartVO, CartMapper, CartService, CartServiceImpl 추가
+	   장바구니 기능 구현 완료
+	   
