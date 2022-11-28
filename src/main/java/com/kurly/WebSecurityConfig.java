@@ -37,7 +37,6 @@ public class WebSecurityConfig {
 	public WebSecurityCustomizer webSecurityCustomizer() { 
 		log.info("Static Resource에 대한 접근 권한 설정 완료 !!!");
 	    return (web)-> web.ignoring().antMatchers("/images/**","/profile/**");
-		    
 	}
 	
 	@Bean
@@ -46,6 +45,7 @@ public class WebSecurityConfig {
 	    http.authorizeRequests() 	    	
 	    	.antMatchers("/member/**").permitAll()
 	    	.antMatchers("/product/**").permitAll()	//로그인하지 않아도 쇼핑몰을 구경할 수 있도록
+	    	.antMatchers("/css/**", "/icons/**", "/js/**").permitAll()
 	    	.antMatchers("/userManage/**").hasAnyAuthority("USER","ADMIN")
 	    	.antMatchers("/board/**").hasAnyAuthority("USER","ADMIN")
 	    	.antMatchers("/admin/**").hasAnyAuthority("ADMIN")

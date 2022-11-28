@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>아이디 찾기</title>
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
+
 <script src="http://code.jquery.com/jquery-1.11.3.js"></script>
 <script>
 	$(document).ready(function(){
 		$("#btn_goHome").on("click", function(){
-			location.href="/"	
+			location.href="/member/login"	
 		})
 	})
 </script>
@@ -43,10 +44,10 @@ a:active { color: red; }
   position:relative;
   left:40%;
   transform: translateX(-50%);
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   width:80%;
   height:40px;
-  background: linear-gradient(125deg,#81ecec,#6c5ce7,#81ecec);
+  background:#5F0080 ;
   background-position: left;
   background-size: 200%;
   color:white;
@@ -64,7 +65,7 @@ a:active { color: red; }
 <div align=center>
 
   <div>
-    <img id="topBanner" src ="/images/logo.jpg" title="서울기술교육센터" >
+    <img id="topBanner" src ="/icons/logo.svg" title="FakeKurly" >
   </div>
 
 	<div id="IDSearchResult">

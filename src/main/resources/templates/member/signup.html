@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
 
-<title>회원가입</title>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <style>
@@ -184,7 +184,7 @@ $(document).ready(function(){
         <input type="password" id="password" name="password" class="password" placeholder="비밀번호를 입력해주세요">
         <p style="color:#5F0080;text-align:center;">※ 8~20이내의 영문자, 숫자, 특수문자 조합으로 암호를 만들어 주세요.</p>
         <input type="password" id="password1" name="password1" class="password1" placeholder="비밀번호를 한번 더 입력해주세요">
-        <input type="text" id="telno" name="telno" class="telno" placeholder="전화번호를 숫자만 입력해주세요">
+        <input type="tel" id="telno" name="telno" class="telno" placeholder="전화번호를 숫자만 입력해주세요">
 		<br>
 	    <input type="text" name="zipcode" size="7" id="zipcode" placeholder="우편번호">
 	    <input type="button" class="btn btn-primary btn-sm" value="주소검색" onclick="sample6_execDaumPostcode()">
@@ -201,3 +201,4 @@ $(document).ready(function(){
 </div>
 <br><br>
 </body>
+</html>
