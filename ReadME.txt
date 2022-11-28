@@ -6,3 +6,4 @@
 		- /userManage/welcome 페이지는 현재 뷰가 없고 Controller에서 userid, username만 세션에 등록하는 POST 함수만 있음
 		- 나중에 페이지를 추가하거나 경로를 바꿀 것.
 		- html에서 세션 가져오기: <태그 속성="${session.userid}"> [[${session.username}]]님 </태그>
+	* 기존 board 코드를 그대로 가져왔기 때문에 html 페이지를 수정해주어야 함.
