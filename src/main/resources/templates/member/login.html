@@ -49,7 +49,7 @@ body { font-family: "나눔고딕", "맑은고딕" }
 .userid, .username, .password {
 	display:inline-block;
 	width: 340px;
-	height: 60px;
+	height: 50px;
 	border: 1px solid;
 	box-sizing : border-box;
 	border-radius: 5px;
@@ -100,15 +100,15 @@ body { font-family: "나눔고딕", "맑은고딕" }
 	<div class="login">
 		<h1>로그인</h1>
 		<form name="loginForm" class="loginForm" method="post" onsubmit="loginCheck()">
-			<input type="text" name="userid" id="userid" class="userid" placeholder="아이디를 입력하세요." /><br />
-         	<input type="password" id="password" name="password" class="password" onkeydown="press(this.form)" placeholder="비밀번호를 입력하세요." />
+			<input type="text" name="userid" id="userid" class="userid" placeholder="아이디를 입력하세요" /><br />
+         	<input type="password" id="password" name="password" class="password" onkeydown="press(this.form)" placeholder="비밀번호를 입력하세요" />
           	<label style="font-size:14px; display:inline-block; width:340px; text-align:right;">
          		<input type="checkbox" name="remember-me" class="remember" style="display:inline-block; width: 15px; height:15px;" />
-         		아이디/패스워드 저장
+         		아이디/비밀번호 저장
          	</label>
          	<label style="font-size:14px; display:inline-block; width:340px; text-align:right;">
          		<a href="/member/searchID">아이디 찾기</a> | 
-				<a href="/member/searchPassword">패스워드 찾기</a>
+				<a href="/member/searchPassword">비밀번호 찾기</a>
          	</label>
      		<input type="button" id="btn_login" class="btn_login" value="로그인" onclick="loginCheck()"> 
 		</form>

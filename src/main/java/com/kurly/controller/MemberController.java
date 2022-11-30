@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kurly.dto.MemberVO;
 import com.kurly.service.MemberService;
 
-import lombok.extern.log4j.Log4j2;
-
 @Controller
 public class MemberController {
 
@@ -30,7 +28,7 @@ public class MemberController {
 	
 	@Autowired
 	MemberService service;
-	@Autowired //비밀번호 암호화 이존성 주입
+	@Autowired
 	private PasswordEncoder pwdEncoder;
 	
 	// 회원가입 화면 보기
@@ -42,7 +40,6 @@ public class MemberController {
 	@RequestMapping(value="/member/signup", method=RequestMethod.POST)
 	public String postMemberRegistry(MemberVO member) throws Exception {
 		
-		// 비밀번호 암호화: 시큐리티 설정이 필요한 것 같음.
 		String inputPassword = member.getPassword();
 		String pwd = pwdEncoder.encode(inputPassword);
 		member.setPassword(pwd);
@@ -168,17 +165,17 @@ public class MemberController {
 			model.addAttribute("msg", result);
 			return null;
 		} else {
-			session.setAttribute("userid", result);
+			session.setAttribute("search_userid", result);
 			return "redirect:/member/IDView";
 		}
 	}
 	@RequestMapping(value="/member/IDView", method=RequestMethod.GET)
 	public void getFoundIDView(Model model, HttpSession session) {
 
-		String userid = (String)session.getAttribute("userid");
+		String userid = (String)session.getAttribute("search_userid");
 		model.addAttribute("userid", userid);
 		
-		session.removeAttribute(userid);
+		session.removeAttribute("search_userid");
 	}
 	
 	// 비밀번호 찾기
@@ -256,6 +253,7 @@ public class MemberController {
 		}
 		
 		// 세션 삭제
+		// ★ 첫 페이지로 이동
 		session.invalidate();
 		return "redirect:/";
 	}

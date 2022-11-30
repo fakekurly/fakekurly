@@ -1,0 +1,55 @@
+/* fakekurly 아이디찾기, 임시비밀번호발급 style */
+
+body { font-family: "나눔고딕", "맑은고딕" }
+#hypertext { text-decoration-line: none; cursor: hand; }
+
+.searchForm {
+	width: 340px;
+	height: auto;
+	padding: 10px;
+	background-color:#FFFFFF;
+	text-align:center;
+	margin: 0px;
+	margin-top: 150px;
+}
+
+.searchFormDivision {
+	margin: 5px 0px 15px 0px;
+}
+
+.formLabel {
+	margin: 0px 0px 10px 0px;
+	float: left;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.userid, .username, .telno {
+	display:inline-block;
+	width: 340px;
+	height: 50px;
+	border: 1px solid;
+	box-sizing : border-box;
+	border-radius: 5px;
+	outline: none;
+	border-color: #D0D0D0;
+	font-size:16px;
+	background: none;
+	margin: 0px 0px 10px 0px;
+	padding-left: 15px;
+}
+
+.btn_pwSearch, .btn_IDSearch {
+	width:340px;
+	height:60px;
+	background: #5F0080;
+	color:white;
+	font-weight: bold;
+	font-size: 15px;
+	border: 1px solid;
+	border-radius: 5px;
+	border-color: #5F0080;
+	cursor:pointer;
+	transition: 0.4s;
+	margin: 10px 0px 0px 0px;
+}

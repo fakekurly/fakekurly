@@ -4,98 +4,40 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <th:block th:replace="fragments/header :: headerFragment"></th:block>
-
+<link rel="stylesheet" type="text/css" th:href="@{/css/searchForm.css}">
 <script src="http://code.jquery.com/jquery-1.11.3.js"></script>
 <script>
 function IDSearchCheck(){
 
 	if($("#username").val() == "") { alert("이름을 입력하세요."); $("#username").focus();  return false; }
 	if($("#telno").val() == '') { alert("전화번호를 입력하세요."); $("#telno").focus(); return false; }
-	$("#IDSearchForm").attr("action", "/member/searchID").submit();//경로확인필요
+	$("#IDSearchForm").attr("action", "/member/searchID").submit();
 }
 
 function press() {
 	
-	if(event.keyCode == 13){ pwSearchCheck(); }
-	
+	if(event.keyCode == 13){ IDSearchCheck(); }
 }
 
 </script>
-<style>
-body { font-family: "나눔고딕", "맑은고딕" }
-h1 { font-family: "HY견고딕" }
-a:link { color: black; }
-a:visited { color: black; }
-a:hover { color: blue; }
-a:active { color: red; }
-#hypertext { text-decoration-line: none; cursor: hand; }
-
-.IDSearchForm {
-  width:900px;
-  height:auto;
-  padding: 20px, 20px;
-  background-color:#FFFFFF;
-  text-align:center;
-  border:5px solid gray;
-  border-radius: 30px;
-  margin-top: 150px;
-}   
-   
-.usernameForm{
-  border-bottom: 2px solid #adadad;
-  margin: 30px;
-  padding: 10px 10px;
-}
-
-.telnoForm{
-  border-bottom: 2px solid #adadad;
-  margin: 30px;
-  padding: 10px 10px;
-}
-
-.username, .telno {
-  width: 100%;
-  border:none;
-  outline:none;
-  color: #636e72;
-  font-size:16px;
-  height:25px;
-  background: none;
-}
-
-.btn_IDSearch  {
-  position:relative;
-  left:40%;
-  transform: translateX(-50%);
-  margin-bottom: 20px;
-  width:80%;
-  height:40px;
-  background:#5F0080 ;
-  background-position: left;
-  background-size: 200%;
-  color:white;
-  font-weight: bold;
-  border:none;
-  cursor:pointer;
-  transition: 0.4s;
-  display:inline;
-}
-</style>
 </head>
 
 <body>
 <div class="home_body_div" align=center>
-
-	<form name="IDSearchForm" class="IDSearchForm" id="IDSearchForm" method="post">
-     	<h1>아이디 찾기</h1>
-     	<div class="IDSearchFormDivision">
-         	<div class="usernameForm"><input type="text" name="username" id="username" class="username" placeholder="이름을 입력해주세요"></div>
-         	<div class="telnoForm"><input type="text" id="telno" name="telno" class="telno" onkeydown="press(this.form)" placeholder="전화번호를 숫자만 입력하세요"></div>
-          		<p th:if="${msg=='ID_NOT_FOUND'}" style="text-align: center; color:#5F0080;">입력한 조건에 맞는 사용자가 존재하지 않습니다. 확인 후 다시 입력해주세요</p>
-          	<input type="button" id="btn_IDSearch" class="btn_IDSearch" value="아이디 찾기" onclick="IDSearchCheck()"> 
-     	</div> 
+	<form name="IDSearchForm" class="searchForm" id="IDSearchForm" method="post">
+		<h1>아이디 찾기</h1>
+     	<div class="searchFormDivision">
+     		<label class="formLabel">이름</label>
+         	<input type="text" name="username" id="username" class="username" placeholder="이름을 입력하세요" />
+		</div>
+		<div class="searchFormDivision">
+			<label class="formLabel">전화번호</label>
+         	<input type="text" id="telno" name="telno" class="telno" placeholder="전화번호를 입력하세요"
+         		onkeydown="press(this.form)" oninput="this.value=this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+		</div>
+		<p th:if="${msg=='ID_NOT_FOUND'}" style="font-size:15px; text-align: center; color:#5F0080;">입력한 조건에 맞는 사용자가 존재하지 않습니다.</p>
+		<input type="button" id="btn_IDSearch" class="btn_IDSearch" value="확인" onclick="IDSearchCheck()"> 
 	</form>
-	
 </div>
 
 </body>

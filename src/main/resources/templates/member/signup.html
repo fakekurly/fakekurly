@@ -4,73 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <th:block th:replace="fragments/header :: headerFragment"></th:block>
-
+<link rel="stylesheet" type="text/css" th:href="@{/css/signup.css}">
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <style>
-body { font-family: "나눔고딕", "맑은고딕" }
-h1 { font-family: "HY견고딕" }
 
-.registerForm {
-  width:900px;
-  height:auto;
-  padding: 10px, 10px;
-  background-color:#FFFFFF;
-  border:4px solid gray;
-  border-radius: 20px;
-}
-.userid, .username, .password, .password1, .telno, .address, .email {
-  width: 80%;
-  border:none;
-  border-bottom: 2px solid #adadad;
-  margin: 5px;
-  padding: 10px 10px;
-  outline:none;
-  color: #636e72;
-  font-size:16px;
-  height:25px;
-  background: none;
-}
-.btn_register  {
-  position:relative;
-  left:20%;
-  transform: translateX(-50%);
-  margin-top: 20px;
-  margin-bottom: 10px;
-  width:40%;
-  height:40px;
-  background: #5F0080;
-  background-position: left;
-  background-size: 200%;
-  color:white;
-  font-weight: bold;
-  border:none;
-  cursor:pointer;
-  transition: 0.4s;
-  display:inline;
-}
-.btn_cancel  {
-  position:relative;
-  left:20%;
-  transform: translateX(-50%);
-  margin-top: 20px;
-  margin-bottom: 10px;
-  width:40%;
-  height:40px;
-  background: #CBB0EB;
-  background-position: left;
-  background-size: 200%;
-  color:white;
-  font-weight: bold;
-  border:none;
-  cursor:pointer;
-  transition: 0.4s;
-  display:inline;
-}
 </style>
 
 <script>
-function sample6_execDaumPostcode() {
+function searchAddress() {
 
     new daum.Postcode({
 		oncomplete : function(data) {
@@ -113,7 +55,7 @@ function sample6_execDaumPostcode() {
 		}
 
 	}).open();
-} // end of sample6_execDaumPostcod()
+} // end of searchAddress()
 
 $(document).ready(function(){
 	
@@ -155,9 +97,8 @@ $(document).ready(function(){
 			datatype: "json",
 			data: {"userid": $("#userid").val()},
 			success: function(data){
-				var jsonInfo = JSON.parse(data);
-				if(jsonInfo.id_count == 1 ){
-					$("#checkID").html("동일한 아이디가 존재합니다. 새로운 아이디를 입력하세요.");
+				if(data == 1 ){
+					$("#checkID").html("동일한 아이디가 존재합니다.");
 					$("#userid").val("").focus();
 				}else $("#checkID").html("사용 가능한 아이디입니다.");
 			}
@@ -171,34 +112,60 @@ $(document).ready(function(){
 
 </head>
 <body>
-<br><br><br>
-
 <div class="main" align="center">
-  <div class="registerForm">
-	      
-    <h1>회원가입</h1>
-    <form name="registerForm" id="registerForm" method="post"> 
-        <input type="text" id="userid" name="userid" class="userid" placeholder="아이디를 입력해주세요">
-        <p id="checkID" style="color:red;text-align:center;"></p>
-	    <input type="text" id="username" name="username" class="username" placeholder="이름을 입력해주세요">
-        <input type="password" id="password" name="password" class="password" placeholder="비밀번호를 입력해주세요">
-        <p style="color:#5F0080;text-align:center;">※ 8~20이내의 영문자, 숫자, 특수문자 조합으로 암호를 만들어 주세요.</p>
-        <input type="password" id="password1" name="password1" class="password1" placeholder="비밀번호를 한번 더 입력해주세요">
-        <input type="tel" id="telno" name="telno" class="telno" placeholder="전화번호를 숫자만 입력해주세요">
-		<br>
-	    <input type="text" name="zipcode" size="7" id="zipcode" placeholder="우편번호">
-	    <input type="button" class="btn btn-primary btn-sm" value="주소검색" onclick="sample6_execDaumPostcode()">
-		<br>
- 		주소
-	    <input type="text" name="address" size="40" id="address" readonly placeholder="주소검색을 이용하여 입력해주세요"> <br>
-	    <input type="text" name="address2" size="40" id="address2" placeholder="상세주소를 입력해주세요.">
-		<input type="text" id="email" name="email" class="email" placeholder="예 : customer@fakekurly.com">
-		<input type="button" id="btn_register" class="btn_register" value="가입하기" >
-		<input type="button" id="btn_cancel" class="btn_cancel" value="취소" onclick="history.back()">
-	</form>
-
-  </div>
+	<div class="registerForm">
+		<br><br>
+    	<h1>회원가입</h1>
+		<form name="registerFormLabel" id="registerFormLabel" method="post"> 
+			<div class="registerFormDivision">
+				<label class="registerFormLabel">아이디</label>
+				<div class="layoutMiddle">
+					<input type="text" id="userid" name="userid" class="userid" placeholder="아이디를 입력해주세요">
+					<p id="checkID" style="color:red;text-align:center;"></p>
+				</div>
+			</div>
+			<div class="registerFormDivision">
+				<label class="registerFormLabel">이름</label>
+				<div class="layoutMiddle">
+					<input type="text" id="username" name="username" class="username" placeholder="이름을 입력해주세요">
+				</div>
+			</div>
+			<div class="registerFormDivision">
+				<label class="registerFormLabel">비밀번호</label>
+				<div class="layoutMiddle">
+					<input type="password" id="password" name="password" class="password" placeholder="비밀번호를 입력해주세요">
+					<p style="font-size: 14px; color:#5F0080; text-align:left; margin:0;">※8~20이내의 영문/숫자/특수문자를 조합</p>
+				</div>
+			</div>
+			<div class="registerFormDivision">
+				<label class="registerFormLabel">비밀번호 확인</label>
+				<input type="password" id="password1" name="password1" class="password1" placeholder="비밀번호를 한번 더 입력해주세요">
+			</div>
+			<div class="registerFormDivision">
+				<label class="registerFormLabel">전화번호</label>
+				<div class="layoutMiddle">
+					<input type="tel" id="telno" name="telno" class="telno" placeholder="전화번호를 입력해주세요"
+						oninput="this.value=this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+				</div>
+			</div>
+			<div class="registerFormDivision">
+				<label class="registerFormLabel">주소</label>
+				<div class="layoutMiddle">
+					<input type="button" class="btn_address" value="주소 검색" onclick="searchAddress()">
+					<input type="text" name="zipcode" id="zipcode" class="address" readonly placeholder="우편번호">
+					<input type="text" name="address" id="address" class="address" readonly placeholder="주소지"> <br>
+					<input type="text" name="address2" id="address2" class="address" placeholder="상세주소를 입력해주세요.">
+				</div>
+			</div>
+			<div class="registerFormDivision">
+				<label class="registerFormLabel">이메일</label>
+				<div class="layoutMiddle">
+					<input type="text" id="email" name="email" class="email" placeholder="예 : customer@fakekurly.com">
+				</div>
+			</div>
+			<input type="button" id="btn_register" class="btn_register" value="가입하기" >
+		</form>
+	</div>
 </div>
-<br><br>
 </body>
 </html>
