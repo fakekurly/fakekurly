@@ -44,12 +44,6 @@ public class MemberServiceImpl implements MemberService {
 		mapper.modifyMemberInfo(member);
 	}
 	
-	// 비밀번호 확인
-	@Override
-	public int passwordCheck(MemberVO member) {
-		return mapper.passwordCheck(member);
-	}
-	
 	// 비밀번호 변경
 	@Override
 	public void modifyPassword(MemberVO member) {
@@ -60,7 +54,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void signOut(String userid) {
 		mapper.signOutDeleteLike(userid);
-		mapper.signOutDeleteFile(userid);
+		//mapper.signOutDeleteFile(userid);
 		mapper.signOutDeleteBoard(userid);
 		mapper.signOutDeleteMember(userid);
 	}

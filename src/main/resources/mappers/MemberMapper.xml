@@ -29,14 +29,8 @@
 
 <!-- 사용자 정보 보기 -->
 <select id="memberInfoView" parameterType="string" resultType="com.kurly.dto.MemberVO">
-	select userid, username,password,telno,email,role,zipcode,address,
-	to_char(lastpwdate, 'YYYY-MM-DD HH24:MI:SS') as lastpwdate, 
+	select userid, username, password, telno, email, role, zipcode, address, grade, 
 	to_char(regdate,'YYYY-MM-DD HH24:MI:SS') as regdate from tbl_member where userid = #{userid}
-</select>
-
-<!-- 비밀번호 변경 전, 현재 비밀번호 확인 -->
-<select id="passwordCheck" parameterType="com.kurly.dto.MemberVO" resultType="int">
-	select count(*) as password_check from tbl_member where userid=#{userid} and password=#{password}
 </select>
 
 <!-- 비밀번호 변경 -->
@@ -45,6 +39,7 @@
 </update>
 
 <!-- 회원탈퇴 -->
+<!-- ★ 장바구니, 결제내역 삭제 추가할 것 -->
 <delete id="signOutDeleteReply" parameterType="string">
 	delete from tbl_reply where userid=#{userid}
 </delete>

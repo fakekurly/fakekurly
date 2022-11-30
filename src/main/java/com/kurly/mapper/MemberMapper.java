@@ -1,10 +1,7 @@
 package com.kurly.mapper;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-
-import javax.sql.DataSource;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -46,5 +43,4 @@ public interface MemberMapper {
 	public String searchPW(MemberVO member);
 	// 임시 패스워드 생성
 	public void setTempPW(MemberVO member);
-	
 }

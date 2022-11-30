@@ -32,3 +32,26 @@ jungin-2 : package : com.kurly
 			- signup.css
 	* 삭제된 파일:
 		- src/main/resources/templates/member: loginCheck.html (필요없으니 삭제)
+
+------------------------------
+11/30 18:45
+	* 회원정보 보기/변경(비밀번호만 수정 가능) 추가, 일부 디자인 변경
+	* 회원탈퇴의 경우 DB 내에 종속된 다른 컬럼의 영향을 받아 작동하지 않음. 장바구니, 좋아요 등 board에서 추가된 다른 테이블 관련 쿼리를 추가하면 될 것으로 보임.
+	* 변경된 파일:
+		- com.kurly.controller: MemberController.java
+		- com.kurly.service: MemberService.java, MemberServiceImpl.java
+		- src/main/resources/mappers:
+			- MemberMappaer.xml
+		- src/main/resources/templates/member:
+			- signup.html
+		- src/main/resources/templates/userManage:
+			- memberInfo.html
+		- src/main/resources/static/css:
+			- modifyInfo.css
+			- signup.css
+	* 삭제된 파일:
+		- src/main/resources/templates/userManage:
+			- memberInfoDelete.html
+			- modifyMemberInfo.html
+			- modifyPassword.html
+			- viewMemberInfo.html

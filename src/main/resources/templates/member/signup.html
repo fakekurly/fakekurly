@@ -7,9 +7,6 @@
 <link rel="stylesheet" type="text/css" th:href="@{/css/signup.css}">
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<style>
-
-</style>
 
 <script>
 function searchAddress() {
@@ -48,7 +45,7 @@ function searchAddress() {
 	 
 			// 우편번호와 주소 정보를 해당 필드에 넣는다.
 			document.getElementById('zipcode').value = data.zonecode; //5자리 새우편번호 사용
-			document.getElementById('address').value = fullAddr;
+			document.getElementById('address1').value = fullAddr;
 			
 			// 커서를 상세주소 필드로 이동한다.
 			document.getElementById('address2').focus();
@@ -67,9 +64,7 @@ $(document).ready(function(){
 		var Pass1 = $("#password1").val();
 		if(Pass == '') { alert("비밀번호를 입력해주세요."); $("#password").focus(); return false; }
 		if(Pass1 == '') { alert("비밀번호를 한번 더 입력해주세요."); $("#password1").focus(); return false; }
-		if(Pass != Pass1) 
-			{ alert("입력된 비밀번호를 확인해보세요"); $("#password1").focus(); return false; }
-		
+	
 		// 암호유효성 검사
 		var num = Pass.search(/[0-9]/g);
 	 	var eng = Pass.search(/[a-z]/ig);
@@ -84,12 +79,14 @@ $(document).ready(function(){
 	 	var afterTel = beforeTel.replace(/\-/gi,"").replace(/\ /gi,"").trim();
 	 	//console.log("afterTel : " + afterTel);
 	 	$("#telno").val(afterTel);
-	 	if($("#address").val() == '') { alert("주소를 입력해주세요."); $("#address").focus(); return false; }
-		if($("#email").val() == '') { alert("이메일을 입력해주세요"); $("#email").focus(); return false; }
+	 	if($("#address1").val() == '') { alert("주소를 입력해주세요."); $("#address1").focus(); return false; }
+	 	if($("#address2").val() == '') { alert("상세주소를 입력해주세요."); $("#address2").focus(); return false; }
+		if($("#email").val() == '') { alert("이메일을 입력해주세요."); $("#email").focus(); return false; }
 		
+		$("#address").val($("#address1").val() + " " + $("#address2").val());
 		$("#registerForm").attr("action","/member/signup").submit();
 	});
-	
+
 	$("#userid").change(function(){
 		$.ajax({
 			url: "/member/idCheck",
@@ -103,9 +100,17 @@ $(document).ready(function(){
 				}else $("#checkID").html("사용 가능한 아이디입니다.");
 			}
 		});
-
 	});
-	
+
+	$("#password1").change(function(){
+		if($("#password").val() != $("#password1").val()) {
+			$("#checkPW").html("입력한 비밀번호를 확인해주세요.");
+			$("#password1").empty();
+			$("#password1").focus();
+		}
+		else { $("#checkPW").empty(); }
+	});
+
 });
 
 </script>
@@ -116,12 +121,12 @@ $(document).ready(function(){
 	<div class="registerForm">
 		<br><br>
     	<h1>회원가입</h1>
-		<form name="registerFormLabel" id="registerFormLabel" method="post"> 
+		<form name="registerForm" id="registerForm" method="post"> 
 			<div class="registerFormDivision">
 				<label class="registerFormLabel">아이디</label>
 				<div class="layoutMiddle">
 					<input type="text" id="userid" name="userid" class="userid" placeholder="아이디를 입력해주세요">
-					<p id="checkID" style="color:red;text-align:center;"></p>
+					<div id="checkID" class="checkField"></div>
 				</div>
 			</div>
 			<div class="registerFormDivision">
@@ -139,7 +144,10 @@ $(document).ready(function(){
 			</div>
 			<div class="registerFormDivision">
 				<label class="registerFormLabel">비밀번호 확인</label>
-				<input type="password" id="password1" name="password1" class="password1" placeholder="비밀번호를 한번 더 입력해주세요">
+				<div class="layoutMiddle">
+					<input type="password" id="password1" name="password1" class="password1" placeholder="비밀번호를 한 번 더 입력해주세요">
+					<div id="checkPW" class="checkField"></div>
+				</div>
 			</div>
 			<div class="registerFormDivision">
 				<label class="registerFormLabel">전화번호</label>
@@ -153,8 +161,9 @@ $(document).ready(function(){
 				<div class="layoutMiddle">
 					<input type="button" class="btn_address" value="주소 검색" onclick="searchAddress()">
 					<input type="text" name="zipcode" id="zipcode" class="address" readonly placeholder="우편번호">
-					<input type="text" name="address" id="address" class="address" readonly placeholder="주소지"> <br>
+					<input type="text" name="address1" id="address1" class="address" readonly placeholder="주소지">
 					<input type="text" name="address2" id="address2" class="address" placeholder="상세주소를 입력해주세요.">
+					<input type="hidden" name="address" id="address"/>
 				</div>
 			</div>
 			<div class="registerFormDivision">

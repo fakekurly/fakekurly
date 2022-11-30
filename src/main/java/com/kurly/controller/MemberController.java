@@ -57,6 +57,21 @@ public class MemberController {
 		return result;
 	}
 	
+	// 개인정보 수정에서 비밀번호 확인
+	@ResponseBody
+	@RequestMapping(value="/userManage/passwordCheck", method=RequestMethod.POST)
+	public int passwordCheck(HttpSession session,
+			@RequestParam("oldpassword") String oldpassword) throws Exception {
+		
+		String userid = (String)session.getAttribute("userid");
+		MemberVO member = service.memberInfoView(userid);
+
+		boolean result = pwdEncoder.matches(oldpassword, member.getPassword());
+		if(result == false) return 0;
+		else return 1;
+	}
+	
+	
 	//로그인 화면 보기
 	@RequestMapping(value="/member/login",method=RequestMethod.GET)
 	public void getLogIn(Model model,@RequestParam(name="message", required=false) String message) { 
@@ -89,61 +104,22 @@ public class MemberController {
 		model.addAttribute("member", member);
 	}
 	
-	// 개인정보 수정 화면 보여주기
-	@RequestMapping(value="/userManage/modifyMemberInfo",method=RequestMethod.GET)
-	public void getModifyMemberInfoView(Model model,HttpSession session) {
-		
-		String userid = (String)session.getAttribute("userid");
-		MemberVO member = service.memberInfoView(userid);
 
-		model.addAttribute("member", member);
-	}
-	
-	// 수정된 개인정보 전달
-	@RequestMapping(value="/userManage/modifyMemberInfo",method=RequestMethod.POST)
-	public String postModifyMemberInfo(HttpSession session
-			,@RequestParam (name="telno", required=false) String telno
-			,@RequestParam (name="email", required=false) String email
-			) throws Exception {
-
-		String userid = (String)session.getAttribute("userid");
-		
-		MemberVO member = service.memberInfoView(userid);
-		member.setTelno(telno);
-		member.setEmail(email);
-		
-		service.modifyMemberInfo(member);
-		return "redirect:/userManage/memberInfo";
-	}
-	
-	// 비밀번호 변경 화면 보기
-	@RequestMapping(value="/userManage/modifyPassword",method=RequestMethod.GET)
-	public void getModifyPasswordView() { }
-	
 	// 비밀번호 변경
 	@RequestMapping(value="/userManage/modifyPassword",method=RequestMethod.POST)
 	public String postModifyPassword(Model model, HttpSession session, 
-			@RequestParam (name="new_userpassword") String newpw) throws Exception {
+			@RequestParam (name="password") String newpw) throws Exception {
 		
 		String userid = (String)session.getAttribute("userid");
 		
 		MemberVO member = service.memberInfoView(userid);
-		// 비번 확인 안 됨
-		int result = 0;
-		result = service.passwordCheck(member);
 		
-		if(result == 0) {
-			model.addAttribute("msg", "PASSWORD_NOT_FOUND");
-			return null;
-		} else {
-			// 변경된 비밀번호를 DB에 넣기
-			String changepw = pwdEncoder.encode(newpw);
-			member.setPassword(changepw);
-			member.setPassword(newpw);
-			service.modifyPassword(member);		
+		// 변경된 비밀번호를 암호화하여 DB에 넣기
+		String changepw = pwdEncoder.encode(newpw);
+		member.setPassword(changepw);
+		service.modifyPassword(member);		
 			
-			return "redirect:/userManage/memberInfo";
-		}
+		return "redirect:/userManage/memberInfo";
 	}
 	
 	// 사용자 아이디 찾기
@@ -215,7 +191,6 @@ public class MemberController {
 			// 비밀번호 암호화
 			String changepw = pwdEncoder.encode(String.valueOf(tempPW));
 			member.setPassword(changepw);
-			member.setPassword(String.valueOf(tempPW));
 			
 			// DB에 적용
 			service.setTempPW(member);
@@ -234,6 +209,8 @@ public class MemberController {
 	}
 	
 	// 회원탈퇴
+	// 장바구니, 결제내역? 등 추가 DB 항목을 추가해서 제거해야지 작동할 것 같음.
+	// 무결성 제약조건(KURLYDEV.FK_CART_CUSTOMER)이 위배되었습니다- 자식 레코드가 발견되었습니다
 	@Transactional(rollbackFor = Exception.class)
 	@RequestMapping(value="/userManage/memberInfoDelete",method=RequestMethod.GET)
 	public String postSignOut(HttpSession session) throws Exception {
@@ -241,16 +218,18 @@ public class MemberController {
 		String userid = (String)session.getAttribute("userid");
 		
 		// 사용자가 업로드한 모든 파일 목록
-		List<String> fileList = service.findMyUploadFile(userid);
+		//List<String> fileList = service.findMyUploadFile(userid);
 		
 		// DB 삭제
 		service.signOut(userid);
 		
+		/*
 		// 저장소 내의 업로드한 파일을 삭제
 		for(String list:fileList) {
 			File file = new File("c:\\Repository\\file\\" + list);
 			file.delete();
 		}
+		*/
 		
 		// 세션 삭제
 		// ★ 첫 페이지로 이동
