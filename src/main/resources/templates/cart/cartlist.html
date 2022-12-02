@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/cartlist.css">
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
 <title>장바구니 목록</title>
 
 </head>
@@ -204,7 +205,7 @@ $(document).on('click','.check_child',function(){
  	<input id="count_cart" type="hidden" th:value="${checkCart}" />
  	<div id="nocart"><center id="nocart" style=" align-items: center; margin-top:50px;">장바구니에 담긴 상품이 없습니다.</center></div>
  			
- <form name="orderform" id="orderform" method="post" class="orderform" action="order.jsp"> <!--onsubmit="return false;"  -->
+ <form name="orderform" id="orderform" method="post" class="orderform" action="/order/order"> <!--onsubmit="return false;"  -->
     
             <input type="hidden" name="cmd" value="order">
             <div class="basketdiv" id="basket">
@@ -245,7 +246,7 @@ $(document).on('click','.check_child',function(){
                 	<input type="checkbox" id="code" class="check_child" name="buy" checked="" th:value='${list.pcode}'>&nbsp;
                 </div>
                 
-                <div class="img" style="margin-bottom:20px;"><img th:src="${list.org_filename}" width="60"></div>
+                <div class="img" style="margin-bottom:20px;"><img th:src="@{/images/}+${list.org_filename}" width="60"></div>
                 <div class="pname">
                     <a th:href="@{../product/productdetail(pcode=${list.pcode})}"><span name="name" th:text='${list.pname}'></span></a>
                 </div>

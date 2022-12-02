@@ -12,12 +12,13 @@
 <html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
 <head>
 <script src="http://code.jquery.com/jquery-1.11.3.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <jsp:include page="header.jsp" />
-<link rel="stylesheet" type="text/css" href="css/productDetail.css">
-<link rel="stylesheet" type="text/css" href="css/list.css">
+<link rel="stylesheet" type="text/css" href="/css/productDetail.css">
+<link rel="stylesheet" type="text/css" href="/css/list.css">
 <title>상품 상세 정보</title>
 </head>
 <style>
@@ -280,7 +281,7 @@ $(function(){
 					count=$("#result").html();
 					price=$("#price").html();
 					
-					var allData = {"code":'[[${productdetail.pcode}]]',"count":count,"price":price,"customer":'mooduk'};
+					var allData = {"code":'[[${productdetail.pcode}]]',"count":count,"price":price};
 					
 					$.ajax({
 						url:"/cart/cartproc",

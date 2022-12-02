@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>마켓컬리 :: 주문내역</title>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/orderlist.css">
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
+</head>
+<body>
+
+<script>
+$(document).ready(function(){
+	//order테이블에 현재유저 없으면 주문내역 없습니다&&목록 div 없애기. 있으면 목록 출력
+	if($('#checkOrder').val()=='0'){
+		$('#no_order').css('display','block');
+		$('#orderlist_exist').css('display','none');
+	}
+	else{
+		$('#orderlist_exist').css('display','block');
+		$('#no_order').css('display','none');
+	}
+		
+
+})
+</script>
+
+<div id="container">
+	<center>주문내역</center>
+	<input id="checkOrder" type="hidden" th:value="${cnt}">
+	<div id="no_order"><center id="no_order" style=" align-items: center; margin-top:50px;">주문내역이 없습니다.</center></div>
+	
+	<div id="orderlist_exist" >
+			<div class="box_2">
+			<input id ="code" type="hidden" value="">
+			<span style="width:100px;">주문번호</span>
+			<span style="width:100px;">사진</span>
+			
+			<span style="width:400px;">이름</span>
+			<span style="width:100px;">개수</span>
+			
+			<span style="width:100px;">결제금액</span>
+			
+			<span style="width:100px;">주문날짜</span>
+			<span style="width:100px;">주문상태</span>
+			</div>
+
+			<div class="box_2" th:each="list,i:${list}" th:if="${list}!=null">
+				<input id ="code" type="hidden" value="">
+				<span style="width:100px;">[[${list.order_code}]]</span>
+				<span style="width:100px;"><img th:src="@{/images/}+${list.org_filename}" style="width: 60px; height: 78px;"></span>
+				
+				<span style="width:400px;">[[${list.pname}]]</span>
+				<span style="width:100px;">[[${list.pcount}]]</span>
+				
+				<span style="width:100px;" th:text="${list.pcount}*${list.price}"></span>
+			
+				<span style="width:100px;">[[${list.order_date}]]</span>
+				<span style="width:100px;">[[${list.state}]]</span>
+			</div>
+
+	</div>
+</div>
+</body>
+</html>
