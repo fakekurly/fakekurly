@@ -55,3 +55,19 @@ jungin-2 : package : com.kurly
 			- modifyMemberInfo.html
 			- modifyPassword.html
 			- viewMemberInfo.html
+--------------------------------------------------------------
+12/02 jungin-2
+	* 장바구니->주문, 주문->주문내역 구현 완료
+	*변경된 파일 :
+		- com.kurly.controller : OrderController.java
+		- com.kurly.dto : OrderVO
+		- com.kurly.mapper : OrderMapper
+		- com.kurly.service : OrderService, OrderServiceImpl
+		- src/main/resources/mappers: orderMapper.xml
+		- src/main/resources/templates/product : productdetail.html
+		- src/main/resources/templates/cart : cartlist.html
+		- src/main/resources/templates/order : order.html, orderlist.html
+		
+	***db tbl_order 변경 필요***
+	tbl_order : state, order_date nullable 'yes'
+		    order_date 기본값 : TO_CHAR(CURRENT_TIMESTAMP,'YYYY-MM-DD-HH24MI')
