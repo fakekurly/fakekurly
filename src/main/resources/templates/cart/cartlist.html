@@ -27,17 +27,27 @@ $(document).ready(function(){
 			$('#orderform').css('display','block');
 			$('#nocart').css('display','none');
 		}
-			
+		
 
+		  // 현재 화면에 표시된 값
+		  let number = resultElement.value;
+		  //let stock = item.parentElement.parentElement.parentElement.nextSibling.nextSibling.value;
+		  //console.log(item.parentElement.parentElement.parentElement.nextSibling.nextSibling);
+		  let stock = document.querySelector('input[id=stock'+pos+']').value;
+		  
+		  if(number==stock){$('#up').attr('disabled',true)}
 })
+function count(type)  {
 
+
+}
 //한 줄 삭제
 function deleteThis(){
 	
 	var item = document.querySelector("button[class=deleteThis]")
 	var code = item.parentElement.parentElement.parentElement.firstElementChild.firstElementChild.value;
 	console.log(code);//현재 포지션 상품코드 값 받기
-    	event.target.parentElement.parentElement.parentElement.remove(); //화면에서 사라지게...
+	event.target.parentElement.parentElement.parentElement.remove(); //화면에서 사라지게...
     	
     	//ajax로 deleteproc.jsp에 해당 상품 코드 보내기
 		//var code=0;
@@ -240,6 +250,7 @@ $(document).on('click','.check_child',function(){
 		image = rs_cart.getString("b.image");%-->
 	   
         <div class="row data" style="float:left;" th:each="list,i:${list}" th:if="${list}!=null">
+        
             <div class="subdiv" >           	
             	<input type="hidden" th:value="${list.pcode}" th:id="${list.pcode}">
                 <div class="check">
@@ -256,15 +267,16 @@ $(document).on('click','.check_child',function(){
                 <div class="num">
             
              <div id="updown" style="display:flex;">
-				<div id="count_div1"><input class="down" id="down" type='button' value='-' th:onclick="'javascript:alterCartData('+${pos}+')'"/></div>
+				<div id="count_div1"><input class="down" id="down" type='button' value='-' th:onclick="'javascript:alterCartData('+${i.index}+', `minus`)'" onclick="count(minus)"/></div>
 					<input type="text" th:name="'pnum'+${i.index}" id="p_num" size="2" maxlength="4" class="p_num" th:value='${list.pcount}' th:onkeyup="'javascript:alterCartData('+${i.index}+')'">
 					<!--%System.out.print("pos: "+pos+" "); %-->
-					<div id="count_div1"><input class="up" id="up" type='button' value='+' th:onclick="'javascript:alterCartData('+${i.index}+')'"/></div>
+					<div id="count_div1"><input class="up" id="up" type='button' value='+' th:onclick="'javascript:alterCartData('+${i.index}+', `plus`)'" onclick="count(plus)"/></div>
              </div>        
                    
                 </div>
                 <div class="sum_value" style="margin-left:20px;" th:text="${list.pcount}*${list.price}"></div>
             </div>
+            <input type="hidden" th:id="'stock'+${i.index}" style=" margin-left:20px;" th:value='${list.stock}'>
             <div class="subdiv">
                 <div class="basketcmd"><button  class="deleteThis" onclick="deleteThis()" style="cursor:pointer;">삭제</button></div>
             </div>
@@ -323,15 +335,38 @@ $(document).on('click','.check_child',function(){
  	}
 	
     //원하는 행 수량 변경
-    function alterCartData (pos) {
+    function alterCartData (pos, type) {
     	var item = document.querySelector('input[name=pnum'+pos+']');
-    	
-    	console.log(item);
+    	console.log("pos: "+pos)
+    	console.log("item: "+ item);
         var p_num = parseInt(item.getAttribute('value'));
-        var newval = event.target.classList.contains('up') ? p_num+1 : event.target.classList.contains('down') ? p_num-1 : event.target.value;
+        console.log(p_num);
+        var newval = event.target.classList.contains('up') ? p_num+1 : event.target.classList.contains('down') ? p_num-1 : event.target.value ;
         
-        if (parseInt(newval) < 1) { return false; }
+		  // 결과를 표시할 element
+		  const resultElement = document.getElementById('p_num');
+		  console.log(resultElement)
+		  // 현재 화면에 표시된 값
+		  let number = resultElement.value;
+		  //let stock = item.parentElement.parentElement.parentElement.nextSibling.nextSibling.value;
+		  //console.log(item.parentElement.parentElement.parentElement.nextSibling.nextSibling);
+		  let stock = document.querySelector('input[id=stock'+pos+']').value;
+		  console.log("재고 : "+stock);
+		  console.log(number);
+		  // 더하기 : 재고보다 많게 선택하면 안된다고 알려주기
+		  if(type === 'plus') {
+				
+			if(parseInt(number)+1>parseInt(stock)){
+				alert("재고가 부족합니다.");
+				newval -=1;
+				
+			}
 
+
+		  }
+		  
+        if (parseInt(newval) < 1) { return false; }
+		if (parseInt(number)>stock){return false;}
         item.setAttribute('value', newval);
         item.value = newval;
         
@@ -369,6 +404,9 @@ $(document).on('click','.check_child',function(){
 			}
 		})},500);  
 	
+		
+
+			
 
     }
     
