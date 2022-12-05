@@ -42,7 +42,8 @@ public class WebSecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
-	    http.authorizeRequests() 	    	
+	    http.authorizeRequests()
+	    	.antMatchers("/main").permitAll()
 	    	.antMatchers("/member/**").permitAll()
 	    	.antMatchers("/product/**").permitAll()	//로그인하지 않아도 쇼핑몰을 구경할 수 있도록
 	    	.antMatchers("/css/**", "/icons/**", "/js/**").permitAll()

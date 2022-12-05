@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
+<script>
+	$(document).ready(function() {
+
+		$('#slider').bxSlider({
+			pager : true,
+			auto : true
+		}); //슬라이더
+		
+		let start = 8;
+		let curPos = 0;
+		
+		$('#next').click(function(){
+		slideNext();
+		start += 4;
+		})
+
+		$('#prev').click(function(){
+		slidePrev();
+		start -= 4;
+		})
+	});
+
+	function slideNext() {
+     //fadein animation
+	//curPos = 현재페이지 (페이지네이션)
+	//100 4 25
+	//1 25
+	//1 = 4보여주는 개수() / 전체 데이터  - 1
+	if (curPos < 1) {
+		$($(".grid_1_items")[curPos]).toggleClass("active")
+		$(".grid_1_items").hide();
+		
+		curPos += 1;
+		$($(".grid_1_items")[curPos]).toggleClass("active")
+		$(".active").fadeIn(800);
+	}
+	        
+	// 마지막 페이지일경우에
+	//else if (curPos == 1) {
+	//}
+}
+    
+	function slidePrev() {
+	
+		if (curPos > 0) {
+			$($(".grid_1_items")[curPos]).toggleClass("active")
+			$(".grid_1_items").hide();
+			curPos -= 1;
+			$($(".grid_1_items")[curPos]).toggleClass("active")
+			$(".active").fadeIn(800);
+		} 
+		//첫번째 페이지일떄
+		//else if (curPos == 0) {
+		
+		//}
+}
+</script>
+<style>
+.sliderContainer {
+	width: 1900px;
+	height: 370px;
+	overflow: hidden;
+	padding: 0;
+}
+
+.sliderContainer img {
+	min-width: 1900px;
+	height: 370px;
+	display: block; object-fit: cover;
+}
+
+</style>
+
+</head>
+<body>
+<div id="slider">
+
+	<div class="sliderContainer">
+       <img style="width:auto; height:370px;"
+          src="https://product-image.kurly.com/cdn-cgi/image/format=auto/banner/main/pc/img/af2fdf9d-7152-4022-9736-60b1dad1f591.jpg">
+	</div>
+    <div class="sliderContainer">
+       <img
+          src="https://product-image.kurly.com/cdn-cgi/image/format=auto/banner/main/pc/img/1eef26f1-31a8-410a-b2b6-866ab59d9c93.jpg">
+    </div>
+    <div class="sliderContainer">
+       <img
+          src="https://product-image.kurly.com/cdn-cgi/image/format=auto/banner/main/pc/img/8f74bcc8-8f8a-410e-8cf3-62828cd5e3d5.jpg">
+    </div>
+    <div class="sliderContainer">
+       <img
+          src="https://product-image.kurly.com/cdn-cgi/image/format=auto/banner/main/pc/img/20139e33-d871-4de9-a2e8-18a3024af36d.jpg">
+    </div>
+    <div class="sliderContainer">
+       <img
+          src="https://product-image.kurly.com/cdn-cgi/image/format=auto/banner/main/pc/img/29046e9d-e1b1-4e6c-8e6f-3ed0fe592bc7.jpg">
+    </div>
+    <div class="sliderContainer">
+       <img
+          src="https://product-image.kurly.com/cdn-cgi/image/format=auto/banner/main/pc/img/d6fe24f5-69c5-40a6-8e84-a4335172126f.jpg">
+    </div>
+    <div class="sliderContainer">
+       <img
+          src="https://img-cf.kurly.com/cdn-cgi/image/format=auto/banner/main/pc/img/39c28de9-2a7f-43bc-9e41-648befae3c95">
+    </div>
+    <div class="sliderContainer">
+       <img
+          src="https://img-cf.kurly.com/cdn-cgi/image/format=auto/banner/main/pc/img/f3dc61b3-068e-433e-a02d-c508a21cd578">
+    </div>
+</div>
+
+<div class="pick_title">이 상품 어때요?</div>
+
+<!-- 4개 항목 -->
+<div class="grid_1">
+	<div class="grid_1_item" th:each="ssolist : ${ssolist}">
+		<a th:href="@{|/product/productdetail?pcode=${ssolist.pcode}|}">
+			<img th:src="|/images/${ssolist.stored_filename}|" width=250; height=320; alt="상품 이미지" loading="lazy" />
+		</a>
+		<span class="product_title">[[${ssolist.pname}]]</span>
+		<span class="price">[[${ssolist.price}]]원</span>
+	</div>
+</div>
+
+</body>
+</html>

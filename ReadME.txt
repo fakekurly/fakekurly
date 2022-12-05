@@ -71,3 +71,17 @@ jungin-2 : package : com.kurly
 	***db tbl_order 변경 필요***
 	tbl_order : state, order_date nullable 'yes'
 		    order_date 기본값 : TO_CHAR(CURRENT_TIMESTAMP,'YYYY-MM-DD-HH24MI')
+
+
+-------------------------------------------
+12/05 20:15
+	* 메인 페이지 추가
+	* 변경/추가된 파일:
+		- com.kurly: WebSecurityConfig.java
+		- com.kurly.controller: ProductController.java
+		- com.kurly.mapper: ProductMapper.java
+		- com.kurly.service: ProductService.java, ProductServiceImpl.java
+		- src/main/resources/mappers: ProductMapper.xml
+		- src/main/resources/static/css/main.css
+		- src/main/resources/templates/main.html
+	* Product 관련해서 함수가 1개만 추가되었음

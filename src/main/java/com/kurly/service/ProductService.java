@@ -2,13 +2,13 @@ package com.kurly.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.kurly.dto.ProductVO;
 
-@Service
 public interface ProductService {
-	
-	public ProductVO productdetail(int pcode) throws Exception;
 
+	// 상품 한 개의 모든 정보를 가져온다
+	public ProductVO getProductDetail(int pcode) throws Exception;
+	
+	// 재고가 5개 미만인 상품의 정보를 가져온다
+	public List<ProductVO> getSoonSoldOut() throws Exception;
 }

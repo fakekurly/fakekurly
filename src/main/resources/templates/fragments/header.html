@@ -10,6 +10,50 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
 <title>페이크컬리 :: 오늘의 장보기, 페이크컬리</title>
+<script>
+$(document).ready(function(){
+	//menu v1 
+	$(".menu-v1").mouseover(function(){
+		$(this).children(".submenu").stop().slideDown();
+	});
+	$(".menu-v1").mouseleave(function(){
+		$(this).children(".submenu").stop().slideUp();
+	});
+	
+	//menu v2
+	$(".menu-v2").mouseover(function(){
+		$(this).children(".submenu").show(200);
+	});
+	$(".menu-v2").mouseleave(function(){
+		$(this).children(".submenu").hide(200);
+	});
+	
+	$('.slider').bxSlider({pager:true, auto:true}); //슬라이더
+});
+
+//특수문자 입력 방지
+function characterCheck(obj){
+var regExp = /[\{\}\[\]\/|\`!^\-_+┼\\'\"\\\(\=]/gi; 
+//허용할 특수문자는 여기서 삭제
+if( regExp.test(obj.value) ){
+	alert("특수문자는 입력하실수 없습니다.");
+	obj.value = obj.value.substring( 0 , obj.value.length - 1 ); // 입력한 특수문자 한자리 지움
+	}
+}
+
+function findProduct(){
+	
+	var findKeyword =  $("#findKeyword").val();
+	// ★ 주소 변경 필요 ★
+	location.href = 'searchProduct.jsp?page=1&findKeyword=' + findKeyword;
+}
+
+function press(){
+	
+	if(event.keyCode == 13){findProduct();}
+	
+}
+</script>
 </head>
 <body>
 <!-- 
@@ -42,8 +86,9 @@
 			</div>
 			<div class="menu_personal">
 				<!-- 각 기능이 있는 파일 링크 걸기 -->
+				<!-- 로그인하지 않은 상태에서는 로그인이 필요하다는 안내창을 띄울 것 -->
 				<a href="#"><img src="/icons/gps.png" width="30px" height="30px"></a>
-				<a href="#"><img src="/icons/cart.png" width="30px" height="30px"></a>
+				<a href="/cart/cartlist"><img src="/icons/cart.png" width="30px" height="30px"></a>
 				<a href="#"><img src="/icons/list.png" width="30px" height="30px"></a>
 			</div>
 		</header>
@@ -70,15 +115,11 @@
 					<div class="dropdown-content" style="margin:0;">
 						<ul id="nav-v2" style="margin-left:0; padding-left:0;">
 							<li class="menu-v2"><a href="productList.jsp?category=채소&categoryNum=0">채소</a></li>
-							<li class="menu-v2"><a href="productList.jsp?category=과일·견과·쌀&categoryNum=1">과일</a></li>
-							<li class="menu-v2"><a href="productList.jsp?category=수산·해산·건어물&categoryNum=2">수산물</a></li>
-							<li class="menu-v2"><a href="productList.jsp?category=정육·계란&categoryNum=3">정육·계란</a></li>
-							<li class="menu-v2"><a href="productList.jsp?category=국·반찬·메인요리&categoryNum=4">국·반찬·메인요리</a></li>
-							<li class="menu-v2"><a href="productList.jsp?category=샐러드·간편식&categoryNum=5">샐러드·간편식</a></li>
-							<li class="menu-v2"><a href="productList.jsp?category=면·양념·오일&categoryNum=6">면·양념·오일</a></li>
-							<li class="menu-v2"><a href="productList.jsp?category=생수·음료·우유·커피&categoryNum=7">생수·음료·우유·커피</a></li>
-							<li class="menu-v2"><a href="productList.jsp?category=간식·과자·떡&categoryNum=8">간식·과자·떡</a></li>
-							<li class="menu-v2"><a href="productList.jsp?category=건강식품&categoryNum=9">건강식품</a></li>
+							<li class="menu-v2"><a href="productList.jsp?category=과일&categoryNum=1">과일</a></li>
+							<li class="menu-v2"><a href="productList.jsp?category=수산&categoryNum=2">수산</a></li>
+							<li class="menu-v2"><a href="productList.jsp?category=정육&categoryNum=3">정육</a></li>
+							<li class="menu-v2"><a href="productList.jsp?category=반찬&categoryNum=4">반찬</a></li>
+							<li class="menu-v2"><a href="productList.jsp?category=간식&categoryNum=5">간식</a></li>
 						</ul>
 					</div><!-- end of "dropdwon-content" -->
 				</div><!-- end of "menu_list" -->

@@ -8,7 +8,10 @@ import com.kurly.dto.ProductVO;
 
 @Mapper
 public interface ProductMapper {
-	
-	public ProductVO productdetail(int pcode) throws Exception;
 
+	// 상품 한 개의 모든 정보를 가져온다
+	public ProductVO getProductDetail(int pcode);
+	
+	// 재고가 5개 미만인 상품의 정보를 가져온다
+	public List<ProductVO> getSoonSoldOut();
 }
