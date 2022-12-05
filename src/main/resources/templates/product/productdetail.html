@@ -182,13 +182,25 @@ $(function(){
 	      
 	      //컨펌 이벤트 처리
 	  });
-	  $("#btn_cart").click(function(){        
-	      $("#popup").css('display','flex').hide().fadeIn();
+	  $("#btn_cart").click(function(){ 
+		  if(userid!="")
+	      	$("#popup").css('display','flex').hide().fadeIn();
 	      //팝업을 flex속성으로 바꿔준 후 hide()로 숨기고 다시 fadeIn()으로 효과
+	      
+	      	else
+	      		location.href="/member/login"
 	  });
+	  
+	  var userid = document.getElementById('userid').value;
+	  console.log(userid);
+	  
 	  $("#close").click(function(){
-	      modalClose(); //모달 닫기 함수 호출
+		  
+	      	modalClose(); //모달 닫기 함수 호출
+
 	  });
+	  
+
 	  function modalClose(){
 	      $("#popup").fadeOut(); //페이드아웃 효과
 	  }
@@ -212,7 +224,7 @@ $(function(){
 	
 </script>
 <div class="container">
-	
+	<input type="hidden" id="userid" th:value='${session.userid}'/>
 	<div style="width:1050px;height:50px"></div>
 	<div id = "mid_content">
     		
@@ -319,7 +331,7 @@ $(function(){
 	          		<div class="body-contentbox">
 	          	  	<p> 장바구니에 상품이 담겼습니다.</p>
 	            		장바구니로 이동하시겠습니까?
-	         		 </div>
+	         		 </div>	
 	        		</div>
 	     			 </div>
 	      			<div class="popup-foot"> 
