@@ -85,3 +85,27 @@ jungin-2 : package : com.kurly
 		- src/main/resources/static/css/main.css
 		- src/main/resources/templates/main.html
 	* Product 관련해서 함수가 1개만 추가되었음
+
+-------------------------------------------
+12/06 03:41 hmj
+* 카테고리 상품/신상품 페이지 추가
+  script 안에서 오류 뜨는건 javascript 내 타임리프 인식 문제 때문입니다. 코드 돌아가는 것에는 문제 없습니다.
+- productVO에서 category 부분이 없는 것을 확인하여 아무도 category 부분은 안쓰신 것 같아 db내 category를 약간 수정했습니다. 
+
+	tbl_category 생성
+	tbl_product 수정  → 변경내용 확인하실 수 있게 테이블 생성 및 db삽입 sql으로 올리겠습니다.
+
+	controller: ProductController.java  →내용 추가
+
+	dto: BrandVO.java/ CategoryListVO.java/ CategoryVO.java → 추가
+	     ProductVo.java → 내용 추가
+
+	mapper: ProductMapper.java → 내용 추가
+
+	service: ProductService.java/ ProductServiceImpl.java → 내용 추가
+
+	resources/mappers : productMapper.xml → 내용 추가
+
+	resource/templates/collections 폴더 추가
+		category_product.html / newProduct.html → 추가
+
