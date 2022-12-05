@@ -108,4 +108,7 @@ jungin-2 : package : com.kurly
 
 	resource/templates/collections 폴더 추가
 		category_product.html / newProduct.html → 추가
+		
+	나머지 구현해야할 페이지는 오늘 중으로 올리겠습니다...	
+	
 
