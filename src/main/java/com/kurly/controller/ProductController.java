@@ -2,6 +2,8 @@ package com.kurly.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,8 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kurly.dto.BrandVO;
+import com.kurly.dto.CategoryVO;
 import com.kurly.dto.ProductVO;
 import com.kurly.service.ProductService;
 
@@ -42,5 +48,91 @@ public class ProductController {
 			ssoResult.add(ssolist.get(i));
 		}
 		model.addAttribute("ssolist", ssoResult);
+	}
+	
+	@RequestMapping("/collections/category_product")
+	public void GetCategoryProductList(Model model,
+				 @RequestParam("category") String category,
+				 @RequestParam(name="sortType", required=false) String sortType,
+				 @RequestParam(value="checkedBrand", required=false) List<String> checkedBrand
+											) throws Exception{
+		
+		Map<String, Object> data = new HashMap<>();
+		data.put("category", category);
+		data.put("sortType", sortType);
+		data.put("checkedBrand", checkedBrand);
+		
+		model.addAttribute("mainCategory", service.mainCategory(category));
+		model.addAttribute("companyFilter", service.companyFilter(data));
+		model.addAttribute("countProduct", service.countProduct(data));
+		model.addAttribute("categoryProduct", service.categoryProduct(data));
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping("/collections/filter")
+	public Map<String, Object> GetCategoryProductListFilter(Model model, 
+						 @RequestParam("category") String category,
+						 @RequestParam(name="sortType", required=false) String sortType,
+						 @RequestParam(value="checkedBrand[]") List<String> checkedBrand
+											) throws Exception{
+
+		//log.info("카테고리 : " + category);
+		//log.info("서브카테고리 : " + subCategory);
+		//log.info("배열 확인 : " + checkedBrand);
+		
+		Map<String, Object> data = new HashMap<>();
+		data.put("category", category);
+		data.put("sortType", sortType);
+		data.put("checkedBrand", checkedBrand);
+		
+		//log.info("데이터 :" + data); 
+		
+		 Map<String, Object> result = new HashMap<>();
+		 result.put("category", service.mainCategory(category));
+		 result.put("categoryProduct", service.categoryProduct(data));
+
+		 return result;
+	}
+	
+	//newProduct
+	@RequestMapping("/collections/newProduct")
+	public void GetnewProductList(Model model,
+					  @RequestParam(name="sortType", required=false) String sortType,
+					  @RequestParam(value="checkedCategory", required=false) List<String> checkedBrand
+											) throws Exception{
+		
+		Map<String, Object> data = new HashMap<>();
+		data.put("sortType", sortType);
+		data.put("checkedBrand", checkedBrand);
+		
+		
+		model.addAttribute("categoryFilter", service.categoryFilter());
+		model.addAttribute("countNewProduct", service.countNewProduct(data));
+		model.addAttribute("newProduct", service.newProduct(data));
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping("/collections/newProductfilter")
+	public Map<String, Object> GetnewProductfilter(Model model, 
+							 @RequestParam(name="sortType", required=false) String sortType,
+							@RequestParam(value="checkedCategory[]") List<String> checkedCategory
+												) throws Exception{
+
+		//log.info("배열 확인 : " + checkedCategory);
+		
+		Map<String, Object> data = new HashMap<>();
+		data.put("sortType", sortType);
+		data.put("checkedCategory", checkedCategory);
+		
+		//log.info("데이터 :" + data); 
+		
+		 Map<String, Object> result = new HashMap<>();
+		 result.put("categoryProduct", service.newProduct(data));
+ 
+		//log.info("결과 :" + result);
+		 
+		 return result;
 	}
 }
