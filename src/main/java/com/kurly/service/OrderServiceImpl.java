@@ -55,5 +55,10 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		return mapper.getOrderList(customer);
 	}
+	@Override
+	public void updateOrderQuan() {
+		// TODO Auto-generated method stub
+		mapper.updateOrderQuan();
+	}
 
 }

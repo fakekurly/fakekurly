@@ -19,5 +19,5 @@ public class ProductVO {
 	private String image;
 	private String org_filename;
 	private String stored_filename;
-
+	private int order_quantity;
 }

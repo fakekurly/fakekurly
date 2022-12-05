@@ -25,4 +25,6 @@ public interface OrderService {
 
 	public List<OrderVO> getOrderList(@Param("customer") String customer);
 
+	public void updateOrderQuan();
+
 }

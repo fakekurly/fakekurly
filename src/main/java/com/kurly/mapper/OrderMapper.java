@@ -26,4 +26,6 @@ public interface OrderMapper {
 	public int checkOrder(@Param("customer") String customer);
 	
 	public List<OrderVO> getOrderList(@Param("customer") String customer);
+	
+	public void updateOrderQuan();
 }

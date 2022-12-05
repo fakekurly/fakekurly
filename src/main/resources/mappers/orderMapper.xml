@@ -41,6 +41,10 @@ a.pcount, b.address FROM tbl_cart a INNER JOIN tbl_member b ON a.customer = b.us
 	set stock = stock-pcount
 </update>
 
+<!-- 주문 상품 tbl_product 개수 (인기상품) -->
+<update id="updateOrderQuan" parameterType="int">
+	update (select a.pcount, b.order_quantity from tbl_cart a, tbl_product b where b.pcode=a.pcode) set order_quantity = order_quantity+pcount
+</update>
 <!-- 주문 리스트 있는 지 체크 -->
 <select id="checkOrder" parameterType="String" resultType="int">
 	select count(order_code) from tbl_order where customer = #{customer}

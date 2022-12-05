@@ -114,6 +114,11 @@ public class OrderController {
 		//주문 후 tbl_product 재고 수정
 		service.updateStock(customer);
 		
+		//주문한 상품 수 tbl_product order_quantity 추가
+		service.updateOrderQuan();
+		
+		
+		
 		//장바구니 주문 -> 주문 처리 후 장바구니에서 삭제하기
 		service.delOrderCart();
 		
