@@ -14,10 +14,14 @@ public class ProductVO {
 	private String company;
 	private int price;
 	private int stock;
+	private String category;
 	private String description;
 	private String postscript;
 	private String image;
 	private String org_filename;
 	private String stored_filename;
 	private int order_quantity;
+	private	LocalDateTime pregdate;
+	private long discount;
+	private String thisweerk;
 }
