@@ -93,9 +93,9 @@ jungin-2 : package : com.kurly
 - productVO에서 category 부분이 없는 것을 확인하여 아무도 category 부분은 안쓰신 것 같아 db내 category를 약간 수정했습니다. 
 
 	tbl_category 생성
-	tbl_product 수정  → 변경내용 확인하실 수 있게 테이블 생성 및 db삽입 sql으로 올리겠습니다.
+	tbl_product 수정  → 변경내용 확인할 수 있게 테이블 생성 및 db삽입 sql 올림.
 
-	controller: ProductController.java  →내용 추가
+	controller: ProductController.java  → 내용 추가
 
 	dto: BrandVO.java/ CategoryListVO.java/ CategoryVO.java → 추가
 	     ProductVo.java → 내용 추가
