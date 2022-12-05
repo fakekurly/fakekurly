@@ -17,5 +17,123 @@
 <select id="getSoonSoldOut" resultType="com.kurly.dto.ProductVO">
 	select pcode, pname, price, stored_filename from tbl_product where stock &lt; 10
 </select>
+	
+	
+	
+	<!-- 카테고리에 맞는 상품 목록 가져오기 -->
+	<select id="categoryProduct" parameterType="java.util.HashMap" resultType="com.kurly.dto.ProductVO">
+		select * from tbl_product where category = #{category}
+		<if test='checkedBrand != null'>
+			and company in
+			<foreach collection='checkedBrand' item='checkedBrand' open='(' close=")" separator=','>
+				#{checkedBrand}
+			</foreach>
+		</if>
+		<if test='sortType != null'>
+			<choose>
+				<when test='sortType.equals("1")'>
+					order by pcode
+				</when>
+				<when test='sortType.equals("2")'>
+					order by pregdate desc NULLS LAST
+				</when>
+				<when test='sortType.equals("3")'>
+					order by stock NULLS LAST
+				</when>
+				<when test='sortType.equals("4")'>
+					order by discount desc NULLS LAST
+				</when>
+				<when test='sortType.equals("5")'>
+					order by price NULLS LAST
+				</when>
+				<when test='sortType.equals("6")'>
+					order by price desc NULLS LAST
+				</when>
+				<otherwise>
+					order by pcode
+				</otherwise>		
+			</choose>
+		</if>
+	</select>
+	
+	<!-- 카테고리코드에 맞는 메인카테고리 정보 가져오기  -->
+	<select id="mainCategory"  parameterType="string" resultType="com.kurly.dto.CategoryVO">
+		select * from tbl_category where cateCode = #{category}
+	</select>
+	
+	<!-- 카테고리코드에 맞는 서브카테고리 정보 가져오기  -->
+	<select id="subCategory"  parameterType="string" resultType="com.kurly.dto.CategoryVO">
+		select * from tbl_category where cateParent = #{category}
+	</select>
+	
+	<!-- 카테고리에 맞는 상품의 브랜드 가져오기(중복제거) -->
+ 	<select id="companyFilter" parameterType="string" resultType="com.kurly.dto.BrandVO">
+ 		select distinct company, count(*) companyCount from tbl_product where category = #{category}
+		 group by company order by company
+ 	</select>
+ 	
+ 	<!-- 조건에 맞는 상품 갯수 세기 -->
+ 	<select id="countProduct" parameterType="string" resultType="int">
+ 		select count(*) from tbl_product where category = #{category}
+		<if test='checkedBrand != null'>
+			and company in
+			<foreach collection='checkedBrand' item='checkedBrand' open='(' close=")" separator=','>
+				#{checkedBrand}
+			</foreach>
+		</if>
+ 	</select>
+ 	
+ 	<!-- 신상품 목록 가져오기 -->
+	<select id="newProduct" parameterType="java.util.HashMap" resultType="com.kurly.dto.ProductVO">
+		select * from tbl_product where pregdate >= sysdate - 30
+		<if test='checkedCategory != null'>
+			and category in
+			<foreach collection='checkedCategory' item='checkedCategory' open='(' close=")" separator=','>
+				#{checkedCategory}
+			</foreach>
+		</if>
+		<if test='sortType != null'>
+			<choose>
+				<when test='sortType.equals("1")'>
+					order by pcode
+				</when>
+				<when test='sortType.equals("2")'>
+					order by pregdate desc NULLS LAST
+				</when>
+				<when test='sortType.equals("3")'>
+					order by stock NULLS LAST
+				</when>
+				<when test='sortType.equals("4")'>
+					order by discount desc NULLS LAST
+				</when>
+				<when test='sortType.equals("5")'>
+					order by price NULLS LAST
+				</when>
+				<when test='sortType.equals("6")'>
+					order by price desc NULLS LAST
+				</when>
+				<otherwise>
+					order by pregdate
+				</otherwise>		
+			</choose>
+		</if>
+	</select>
+	
+	<select id="countNewProduct" parameterType="java.util.HashMap" resultType="int">
+ 		select count(*) from tbl_product where pregdate >= sysdate - 30
+		<if test='checkedCategory != null'>
+			and category in 
+			<foreach collection='checkedCategory' item='checkedCategory' open='(' close=")" separator=','>
+				#{checkedCategory}
+			</foreach>
+		</if>
+ 	</select>
+ 	
+ 	<!-- 메인 카테고리 목록 가져오기 -->
+ 	<select id="categoryFilter" resultType="com.kurly.dto.CategoryListVO">
+		select distinct tbl_product.category, count(tbl_product.category) countCategoryProduct, tbl_category.cateName 
+	    from tbl_product join tbl_category  on (tbl_product.pregdate >= sysdate - 30 and tbl_product.category = tbl_category.cateCode)
+	    group by tbl_product.category, tbl_category.cateName  order by tbl_product.category
+ 	</select>	
 
 </mapper>
