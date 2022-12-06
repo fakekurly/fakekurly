@@ -24,15 +24,8 @@ public class ProductServiceImpl implements ProductService {
 		return mapper.getSoonSoldOut();
 	}
 	
-	
-	//상품 목록 전체 가져오기
-	@Override
-	public List<ProductVO> allProductList() throws Exception{;
-	
-		return mapper.allProductList();
-	}
-	
-	//카테고리에 종류에 맞는 상품 목록 가져오기
+	//상품 목록
+		//카테고리에 종류에 맞는 상품 목록 가져오기
 	@Override
 	public List<ProductVO> categoryProduct(Map<String,Object> data) throws Exception{
 		
@@ -44,6 +37,13 @@ public class ProductServiceImpl implements ProductService {
 	public CategoryVO mainCategory(String category) throws Exception{
 		
 		return mapper.mainCategory(category);
+	};
+	
+	//카테고리코드에 맞는 서브카테고리 정보 가져오기
+	@Override
+	public List<CategoryVO> subCategory(String category) throws Exception{
+		
+		return mapper.subCategory(category);
 	};
 	
 	//카테고리에 맞는 상품의 브랜드 가져오기
@@ -80,6 +80,51 @@ public class ProductServiceImpl implements ProductService {
 	public List<CategoryVO> categoryFilter() throws Exception{
 		
 		return mapper.categoryFilter();
+	};
+	
+	//알뜰상품
+	//알뜰상품 목록
+	@Override
+	public List<ProductVO> saleProduct(Map<String,Object> data) throws Exception{
+		
+		return mapper.saleProduct(data);
+	};
+	
+	//알뜰상품 개수 세기
+	@Override
+	public int countSaleProduct(Map<String,Object> data) throws Exception{
+		
+		return mapper.countSaleProduct(data);
+	};
+	
+	//메인 카테고리 목록 가져오기
+	@Override
+	public List<CategoryVO> categoryFilterSale() throws Exception{
+		
+		return mapper.categoryFilterSale();
+	};
+	
+	
+	//베스트상품
+	//알뜰상품 목록
+	@Override
+	public List<ProductVO> bestProduct(Map<String,Object> data) throws Exception{
+		
+		return mapper.bestProduct(data);
+	};
+	
+	//알뜰상품 개수 세기
+	@Override
+	public int countBestProduct(Map<String,Object> data) throws Exception{
+		
+		return mapper.countBestProduct(data);
+	};
+	
+	//메인 카테고리 목록 가져오기
+	@Override
+	public List<CategoryVO> categoryFilterBest() throws Exception{
+		
+		return mapper.categoryFilterBest();
 	};
 	
 }
