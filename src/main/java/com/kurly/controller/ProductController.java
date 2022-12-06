@@ -50,12 +50,13 @@ public class ProductController {
 		model.addAttribute("ssolist", ssoResult);
 	}
 	
-	@RequestMapping("/collections/category_product")
+	//상품 목록
+		@RequestMapping("/collections/category_product")
 	public void GetCategoryProductList(Model model,
-				 @RequestParam("category") String category,
-				 @RequestParam(name="sortType", required=false) String sortType,
-				 @RequestParam(value="checkedBrand", required=false) List<String> checkedBrand
-											) throws Exception{
+						@RequestParam("category") String category,
+						@RequestParam(name="sortType", required=false) String sortType,
+						@RequestParam(value="checkedBrand", required=false) List<String> checkedBrand
+													) throws Exception{
 		
 		Map<String, Object> data = new HashMap<>();
 		data.put("category", category);
@@ -72,10 +73,10 @@ public class ProductController {
 	@ResponseBody
 	@RequestMapping("/collections/filter")
 	public Map<String, Object> GetCategoryProductListFilter(Model model, 
-						 @RequestParam("category") String category,
-						 @RequestParam(name="sortType", required=false) String sortType,
-						 @RequestParam(value="checkedBrand[]") List<String> checkedBrand
-											) throws Exception{
+						@RequestParam("category") String category,
+						@RequestParam(name="sortType", required=false) String sortType,
+						@RequestParam(value="checkedBrand[]") List<String> checkedBrand
+													) throws Exception{
 
 		//log.info("카테고리 : " + category);
 		//log.info("서브카테고리 : " + subCategory);
@@ -98,13 +99,12 @@ public class ProductController {
 	//newProduct
 	@RequestMapping("/collections/newProduct")
 	public void GetnewProductList(Model model,
-					  @RequestParam(name="sortType", required=false) String sortType,
-					  @RequestParam(value="checkedCategory", required=false) List<String> checkedBrand
-											) throws Exception{
+					@RequestParam(name="sortType", required=false) String sortType,
+					@RequestParam(value="checkedCategory", required=false) List<String> checkedBrand
+													) throws Exception{
 		
 		Map<String, Object> data = new HashMap<>();
 		data.put("sortType", sortType);
-		data.put("checkedBrand", checkedBrand);
 		
 		
 		model.addAttribute("categoryFilter", service.categoryFilter());
@@ -116,9 +116,9 @@ public class ProductController {
 	@ResponseBody
 	@RequestMapping("/collections/newProductfilter")
 	public Map<String, Object> GetnewProductfilter(Model model, 
-							 @RequestParam(name="sortType", required=false) String sortType,
-							@RequestParam(value="checkedCategory[]") List<String> checkedCategory
-												) throws Exception{
+						 @RequestParam(name="sortType", required=false) String sortType,
+						 @RequestParam(value="checkedCategory[]") List<String> checkedCategory
+													) throws Exception{
 
 		//log.info("배열 확인 : " + checkedCategory);
 		
@@ -134,5 +134,91 @@ public class ProductController {
 		//log.info("결과 :" + result);
 		 
 		 return result;
+	}
+	
+	//saleProduct
+	@RequestMapping("/collections/saleProduct")
+	public void GetSaleProductList(Model model,
+					@RequestParam(name="sortType", required=false) String sortType,
+					@RequestParam(value="checkedCategory", required=false) List<String> checkedBrand
+													) throws Exception{
+		
+		Map<String, Object> data = new HashMap<>();
+		data.put("sortType", sortType);
+		
+		
+		model.addAttribute("categoryFilterSale", service.categoryFilterSale());
+		model.addAttribute("countSaleProduct", service.countSaleProduct(data));
+		model.addAttribute("saleProduct", service.saleProduct(data));
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping("/collections/saleProductfilter")
+	public Map<String, Object> GetSaleProductfilter(Model model, 
+						@RequestParam(name="sortType", required=false) String sortType,
+						@RequestParam(value="checkedCategory[]") List<String> checkedCategory
+													) throws Exception{
+
+		//log.info("배열 확인 : " + checkedCategory);
+		
+		Map<String, Object> data = new HashMap<>();
+		data.put("sortType", sortType);
+		data.put("checkedCategory", checkedCategory);
+		
+		//log.info("데이터 :" + data); 
+		
+		 Map<String, Object> result = new HashMap<>();
+		 result.put("categoryProduct", service.saleProduct(data));
+ 
+		//log.info("결과 :" + result);
+		 
+		 return result;
+	}
+	
+	//bestProduct
+		@RequestMapping("/collections/bestProduct")
+		public void GetBestProductList(Model model,
+					 @RequestParam(name="sortType", required=false) String sortType,
+					 @RequestParam(value="checkedCategory", required=false) List<String> checkedBrand
+														) throws Exception{
+			
+			Map<String, Object> data = new HashMap<>();
+			data.put("sortType", sortType);
+			
+			
+			model.addAttribute("categoryFilterBest", service.categoryFilterBest());
+			model.addAttribute("countBestProduct", service.countBestProduct(data));
+			model.addAttribute("bestProduct", service.bestProduct(data));
+			
+		}
+		
+		@ResponseBody
+		@RequestMapping("/collections/bestProductfilter")
+		public Map<String, Object> GetBestProductfilter(Model model, 
+						@RequestParam(name="sortType", required=false) String sortType,
+						@RequestParam(value="checkedCategory[]") List<String> checkedCategory
+														) throws Exception{
+
+			//log.info("배열 확인 : " + checkedCategory);
+			
+			Map<String, Object> data = new HashMap<>();
+			data.put("sortType", sortType);
+			data.put("checkedCategory", checkedCategory);
+			
+			//log.info("데이터 :" + data); 
+			
+			 Map<String, Object> result = new HashMap<>();
+			 result.put("categoryProduct", service.bestProduct(data));
+	 
+			//log.info("결과 :" + result);
+			 
+			 return result;
+		}
+	
+	@RequestMapping("/collections/benefits")
+	public void GetBenefits(Model model) throws Exception {
+		
+		model.addAttribute("allCategory", service.allCategory());
 	}
 }
