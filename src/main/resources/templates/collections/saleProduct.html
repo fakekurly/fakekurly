@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
+
+<title>마켓컬리 :: 내일의 장보기, 마켓컬리</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" type="text/css" th:href="@{/css/category_product.css}">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+$(document).ready(function(){
+	
+	$(".categoryCheck").change(function(){
+		
+		var category_array = Array();
+		var array_cnt = 0;
+		var chkbox = $(".categoryCheck");
+		
+		for(i=0; i<chkbox.length; i++) {
+		    if (chkbox[i].checked == true){
+		    	category_array[array_cnt] = chkbox[i].value;
+		    	array_cnt++;
+		    }
+		}
+		
+		console.log(category_array);
+		
+		if(category_array.length == 0){
+			location.href = "/collections/saleProduct";
+		}
+		
+		if(category_array.length > 0){
+	 		$.ajax({
+				url : "/collections/saleProductfilter",
+				type : "POST",
+				//datatype : "json",
+				data : {
+					checkedCategory : category_array
+					}
+	 		})
+	 		.done(function(data){
+	 			console.log("success");
+				console.log(data);
+				
+				var categoryProduct = data.categoryProduct;
+				var countProduct = categoryProduct.length;
+				
+				var html = '';
+				html += '<div id="productInfoArea">'
+				for(i = 0; i < categoryProduct.length; i++){
+					html += '<div>'
+					html += '<a href="#"><div class="productInfo">'
+					html += '<div><img src="/images/' + categoryProduct[i].stored_filename + '" class="productImage"/></div>'
+					html += '<div class="productName"><span>' + categoryProduct[i].pname + '</span></div>'
+					
+					
+					
+					if(categoryProduct[i].discount > 0 ){
+						html += '<div class="productPrice">'
+						html += '<span style="color : #FA622F">' + categoryProduct[i].discount +'% </span>'
+						 
+						var discountPrice = categoryProduct[i].price * (1 - categoryProduct[i].discount/100.00);
+						var commaPrice = categoryProduct[i].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+						var commaDiscountPrice = discountPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+						
+						html += '<span>' + commaDiscountPrice + '원</span>'
+						html += '<br>'
+						html += '<span class="productPricePre">' + commaPrice + '</span>'
+						html += '</div>'
+					
+					}else{
+						html += '<div class="productPrice">'
+						
+						var commaPrice = categoryProduct[i].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+						html += '<span>' + commaPrice + '원</span>'
+						html += '</div>'
+					}
+					
+					html += '<div class="productPostScript"><span>' + categoryProduct[i].postscript + '</div>'
+					
+					html += '</div></a>'
+					html += '</div>'
+				}
+				
+				if(categoryProduct.length % 3 == 2){
+					html += '<div class="productSpace"></div>'
+				}
+				
+				html += '</div>'
+				
+				var resetIcon = "";
+				
+				resetIcon += '<a href="/collections/saleProduct"><div id="resetFilter">'
+				resetIcon += '<img src="/icons/reset.png" id="resetLogOn">'
+				resetIcon += '<div id="resetTitle" style="color: #666666;">초기화</div>'
+				resetIcon += '</div>'
+
+				$("#resetFilter").replaceWith(resetIcon);
+				$("#productInfoArea").replaceWith(html);
+				$("#productTotal").html("총 " + countProduct + " 건");
+	 		});
+
+		}
+	
+		console.log(category_array);
+		
+	});
+});
+
+function priceToString(price) {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+/*]]>*/
+</script>
+
+</head>
+
+<body>
+<hr style="color: #E2E2E2; opacity: 30%;">
+<div id="contentPage">
+
+	<div id="content">
+		<br>
+		<!-- 메인 카테고리 -->
+		<div id="mainCategory">
+			알뜰상품
+		</div>
+		
+		<!--카테고리 아래구역  -->
+		<div id="itemArea">
+		
+			<!-- 필터 구역-->
+			<div id="productFilter">
+				<div id="FilterTitleArea">
+					<div id="filterTitle"> 필터 </div>
+					<div class="filterLine"></div>
+					<div id="resetFilter">
+						<img src="/icons/reset.png" id="resetLogoOff"> 
+						<div id="resetTitle" style="color: #DDDDDD;">초기화</div> 
+					</div>
+				</div> 	
+				
+				<div id="filterOptions">
+					<div id="companysArea">
+						<div id="companyTitle">카테고리</div>
+						<div id="companyDrop">
+							<div id="companys">
+								<div th:each="categoryFilterSale : ${categoryFilterSale}" class="companyNames">
+									<input type="checkbox" th:field="*{categoryFilterSale}" th:value="${categoryFilterSale.category}" class="categoryCheck">
+									<label th:for="${categoryFilterSaleStat.count}" th:text="${categoryFilterSale.cateName}" class="companyCheckLabel"></label> 
+									<p th:text="${categoryFilterSale.countCategoryProduct}" class="companyCount"></p>
+								</div>
+							</div>
+						</div>
+					</div><!-- companyArea 끝 -->
+					
+				</div><!-- filterOptions 끝 -->
+			</div><!-- productFilter 끝 --> 
+			
+			<!-- 상품 목록 -->
+			<div id="productArea">
+			
+				<div id="sortArea">
+					<div id="productTotal"> <!-- 상품 건수 -->
+						총 [[ ${ countSaleProduct} ]] 건
+					</div> <!-- 상품 건수  끝-->
+						<div id="sortOptions">
+							<div class="sortOption"><a th:href="@{'/collections/saleProduct?sortType=1'}" class="sortColor">추천순</a>&nbsp | </div>
+							<div class="sortOption"><a th:href="@{'/collections/saleProduct?sortType=2'}" class="sortColor">신상품순</a>&nbsp | </div>
+							<div class="sortOption"><a th:href="@{'/collections/saleProduct?sortType=3'}" class="sortColor">판매량순</a>&nbsp | </div>
+							<div class="sortOption"><a th:href="@{'/collections/saleProduct?sortType=4'}" class="sortColor">혜택순</a>&nbsp | </div>
+							<div class="sortOption"><a th:href="@{'/collections/saleProduct?sortType=5'}" class="sortColor">낮은 가격순</a>&nbsp | </div>
+							<div class="sortOption"><a th:href="@{'/collections/saleProduct?sortType=6'}" class="sortColor">높은 가격순</a></div>	
+						</div>
+					
+				</div>
+				
+				<div id="productInfoArea">
+					<div th:each="saleProduct : ${saleProduct}" class="productList">
+						<div class="productInfo" onclick="location.href='#';"> <!-- 자세한 상품정보 링크 넣기 -->
+								<div><img th:src="@{'/images/' + ${saleProduct.stored_filename}}" class="productImage"/></div>
+								<div class="productName"><span th:text="${saleProduct.pname}" ></span></div>
+									<div th:if="${saleProduct.discount == 0}" class="productPrice">
+										<span th:text="${#numbers.formatInteger(saleProduct.price, 1, 'COMMA') + '원'}"></span>
+									</div>
+									<div th:unless="${saleProduct.discount == 0}" class="productPrice">
+										<span th:text="${saleProduct.discount + '%'}" style="color: #FA622F"></span>
+										<span th:text="${#numbers.formatInteger((saleProduct.price * (1-saleProduct.discount/100.00)), 1, 'COMMA') + '원'}"></span>
+										<br>
+										<span th:text="${#numbers.formatInteger(saleProduct.price, 1, 'COMMA') + '원'}" class="productPricePre"></span>
+									</div>
+								<div class="productPostScript"><span th:text="${saleProduct.postscript}"></span></div>
+						</div>
+						
+					</div><!-- productInfo 끝 -->
+					
+					<div th:if="${countSaleProduct % 3 != 0}" class="productSpace"></div>
+
+					
+				</div> <!-- productInfoArea 끝 -->
+			</div> <!--productArea 끝  -->
+		</div> <!-- 카테고리 아래구역 끝 -->
+		
+	</div>
+	
+</div>
+
+</body>
+</html>

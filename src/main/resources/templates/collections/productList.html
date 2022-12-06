@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+<title>마켓컬리 :: 내일의 장보기, 마켓컬리</title>
+</head>
+
+<body>
+
+<table>
+	<tbody>
+		<tr th:each="categoryProduct : ${categoryProduct}">
+			<td><img th:src="@{'/product/' + ${categoryProduct.p_category} + '/' + ${categoryProduct.p_image}}" /></td>
+			<td><span th:text="${categoryProduct.p_name}"></span></td>
+			<td><span th:text="${categoryProduct.p_note}"></span></td>
+			<td><span th:text="${categoryProduct.p_discount}"></span></td>
+			<td><span th:text="${categoryProduct.p_price}"></span></td>
+		</tr>
+			
+	</tbody>
+</table>
+
+</body>
+
+</html>

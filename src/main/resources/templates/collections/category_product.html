@@ -123,10 +123,16 @@ $(document).ready(function(){
 		console.log(company_array);
 		
 	});
+	
 });
 
 function priceToString(price) {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function onErrorImage() {
+    
+		$("#banner").replaceWith("");
 }
 
 /*]]>*/
@@ -141,7 +147,7 @@ function priceToString(price) {
 	<div id="content">
 		<!-- 배너 광고 구역 -->
 		<div id="banner">
-			<img th:src="@{'/images/banner/' + ${mainCategory.cateCode} + '.jpg'}"  onerror="this.style.display='none';"/>
+			<img th:src="@{'/images/banner/' + ${mainCategory.cateCode} + '.jpg'}"  onerror="onErrorImage(this)"/>
 		</div>
 		
 		<!-- 메인 카테고리 -->
