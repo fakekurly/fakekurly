@@ -100,7 +100,7 @@ function press(){
 					<span class="dropbtn" style="margin:0;">카테고리</span>
 					<div id="menu_list" style="display:flex;">			      
 						<div style=" align-items:center; margin-left:160px;">
-							<a href="productAll.jsp?menu=신상품"><span>신상품</span> </a>
+							<a href="/collections/newProduct"><span>신상품</span> </a>
 						</div>
 		    		 	<div style="align-items:center; margin-left:160px;">
 							<a href="productAll.jsp?menu=베스트"><span>베스트</span> </a>
@@ -114,12 +114,17 @@ function press(){
 					</div><!-- end of "menu_list" -->
 					<div class="dropdown-content" style="margin:0;">
 						<ul id="nav-v2" style="margin-left:0; padding-left:0;">
-							<li class="menu-v2"><a href="productList.jsp?category=채소&categoryNum=0">채소</a></li>
-							<li class="menu-v2"><a href="productList.jsp?category=과일&categoryNum=1">과일</a></li>
-							<li class="menu-v2"><a href="productList.jsp?category=수산&categoryNum=2">수산</a></li>
-							<li class="menu-v2"><a href="productList.jsp?category=정육&categoryNum=3">정육</a></li>
-							<li class="menu-v2"><a href="productList.jsp?category=반찬&categoryNum=4">반찬</a></li>
-							<li class="menu-v2"><a href="productList.jsp?category=간식&categoryNum=5">간식</a></li>
+							<!--  상품 분류 변경 필요 -->
+							<li class="menu-v2"><a href="/collections/category_product?category=A0000">채소</a></li>
+							<li class="menu-v2"><a href="/collections/category_product?category=B0000">과일</a></li>
+							<li class="menu-v2"><a href="/collections/category_product?category=C0000">수산물</a></li>
+							<li class="menu-v2"><a href="/collections/category_product?category=D0000">정육·계란</a></li>
+							<li class="menu-v2"><a href="/collections/category_product?category=E0000">국·반찬·메인요리</a></li>
+							<li class="menu-v2"><a href="/collections/category_product?category=F0000">샐러드·간편식</a></li>
+							<!-- <li class="menu-v2"><a href="/collections/category_product?category=G0000">면·양념·오일</a></li> -->
+							<!-- <li class="menu-v2"><a href="/collections/category_product?category=H0000">생수·음료·우유·커피</a></li> -->
+							<li class="menu-v2"><a href="/collections/category_product?category=I0000">간식·과자·떡</a></li>
+							<li class="menu-v2"><a href="/collections/category_product?category=J0000">건강식품</a></li>
 						</ul>
 					</div><!-- end of "dropdwon-content" -->
 				</div><!-- end of "menu_list" -->
