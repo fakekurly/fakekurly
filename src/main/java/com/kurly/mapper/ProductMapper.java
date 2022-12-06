@@ -15,11 +15,15 @@ public interface ProductMapper {
 	// 재고가 5개 미만인 상품의 정보를 가져온다
 	public List<ProductVO> getSoonSoldOut();
 	
-	//카테고리에 종류에 맞는 상품 목록 가져오기
+	//상품 목록
+		//카테고리에 종류에 맞는 상품 목록 가져오기
 	public List<ProductVO> categoryProduct(Map<String,Object> data) throws Exception;
 	
 	//카테고리코드에 맞는 메인카테고리 정보 가져오기
 	public CategoryVO mainCategory(String category) throws Exception;
+	
+	//카테고리코드에 맞는 서브카테고리 정보 가져오기
+	public List<CategoryVO> subCategory(String category) throws Exception;
 	
 	//카테고리에 맞는 상품의 브랜드 가져오기
 	public List<BrandVO> companyFilter(Map<String,Object> data) throws Exception; 
@@ -34,9 +38,29 @@ public interface ProductMapper {
 	//신상품 개수 세기
 	public int countNewProduct(Map<String,Object> data) throws Exception;
 	
-	//메인 카테고리 목록 가져오기
+	//신상품 카테고리 목록 가져오기
 	public List<CategoryVO> categoryFilter() throws Exception;
 	
-	//메인 카테고리 별 상품 갯수 가져오기
-	public int countCategoryNewProduct() throws Exception;
+	//알뜰상품
+	//알뜰상품 목록
+	public List<ProductVO> saleProduct(Map<String,Object> data) throws Exception;
+	
+	//알뜰상품 개수 세기
+	public int countSaleProduct(Map<String,Object> data) throws Exception;
+	
+	//메인 카테고리 목록 가져오기
+	public List<CategoryVO> categoryFilterSale() throws Exception;
+	
+	//베스트상품
+	//알뜰상품 목록
+	public List<ProductVO> bestProduct(Map<String,Object> data) throws Exception;
+	
+	//알뜰상품 개수 세기
+	public int countBestProduct(Map<String,Object> data) throws Exception;
+	
+	//메인 카테고리 목록 가져오기
+	public List<CategoryVO> categoryFilterBest() throws Exception;
+	
+	//상품 목록 전체 가져오기
+	public List<ProductVO> allProductList() throws Exception;
 }
