@@ -18,11 +18,13 @@
 	select pcode, pname, price, stored_filename from tbl_product where stock &lt; 10
 </select>
 	
-	
-	
+<!-- 상품 목록 -->
 	<!-- 카테고리에 맞는 상품 목록 가져오기 -->
 	<select id="categoryProduct" parameterType="java.util.HashMap" resultType="com.kurly.dto.ProductVO">
 		select * from tbl_product where category = #{category}
+ 		<if test='subCategory != null'>
+			and detailCategory = #{subCategory}
+		</if>
 		<if test='checkedBrand != null'>
 			and company in
 			<foreach collection='checkedBrand' item='checkedBrand' open='(' close=")" separator=','>
@@ -69,12 +71,18 @@
 	<!-- 카테고리에 맞는 상품의 브랜드 가져오기(중복제거) -->
  	<select id="companyFilter" parameterType="string" resultType="com.kurly.dto.BrandVO">
  		select distinct company, count(*) companyCount from tbl_product where category = #{category}
+ 	 	<if test="subCategory != null">
+			and detailCategory = #{subCategory}
+		</if>
 		 group by company order by company
  	</select>
  	
  	<!-- 조건에 맞는 상품 갯수 세기 -->
  	<select id="countProduct" parameterType="string" resultType="int">
  		select count(*) from tbl_product where category = #{category}
+ 		 <if test='subCategory != null'>
+			and detailCategory = #{subCategory}
+		</if>
 		<if test='checkedBrand != null'>
 			and company in
 			<foreach collection='checkedBrand' item='checkedBrand' open='(' close=")" separator=','>
@@ -117,6 +125,9 @@
 				</otherwise>		
 			</choose>
 		</if>
+		<if test='sortType == null'>
+			order by pregdate desc
+		</if>
 	</select>
 	
 	<select id="countNewProduct" parameterType="java.util.HashMap" resultType="int">
@@ -134,6 +145,129 @@
 		select distinct tbl_product.category, count(tbl_product.category) countCategoryProduct, tbl_category.cateName 
 	    from tbl_product join tbl_category  on (tbl_product.pregdate >= sysdate - 30 and tbl_product.category = tbl_category.cateCode)
 	    group by tbl_product.category, tbl_category.cateName  order by tbl_product.category
- 	</select>	
-
-</mapper>
+ 	</select>
+ 	
+ 	<!-- 신상품 끝 -->
+ 	
+ 	<!-- 베스트상품 목록 가져오기 -->
+	<select id="bestProduct" parameterType="java.util.HashMap" resultType="com.kurly.dto.ProductVO">
+		select * from tbl_product where order_quantity > 99
+		<if test='checkedCategory != null'>
+			and category in
+			<foreach collection='checkedCategory' item='checkedCategory' open='(' close=")" separator=','>
+				#{checkedCategory}
+			</foreach>
+		</if>
+		<if test='sortType != null'>
+			<choose>
+				<when test='sortType.equals("1")'>
+					order by pcode
+				</when>
+				<when test='sortType.equals("2")'>
+					order by pregdate desc NULLS LAST
+				</when>
+				<when test='sortType.equals("3")'>
+					order by stock NULLS LAST
+				</when>
+				<when test='sortType.equals("4")'>
+					order by discount desc NULLS LAST
+				</when>
+				<when test='sortType.equals("5")'>
+					order by price NULLS LAST
+				</when>
+				<when test='sortType.equals("6")'>
+					order by price desc NULLS LAST
+				</when>
+				<otherwise>
+					order by order_quantity
+				</otherwise>		
+			</choose>
+		</if>
+		<if test='sortType == null'>
+			order by order_quantity
+		</if>
+	</select>
+	
+	<select id="countBestProduct" parameterType="java.util.HashMap" resultType="int">
+ 		select count(*) from tbl_product where order_quantity > 99
+		<if test='checkedCategory != null'>
+			and category in 
+			<foreach collection='checkedCategory' item='checkedCategory' open='(' close=")" separator=','>
+				#{checkedCategory}
+			</foreach>
+		</if>
+ 	</select>
+ 	
+ 	<!-- 베스트상품 카테고리 목록 가져오기 -->
+ 	<select id="categoryFilterBest" resultType="com.kurly.dto.CategoryListVO">
+		select distinct tbl_product.category, count(tbl_product.category) countCategoryProduct, tbl_category.cateName 
+	    from tbl_product join tbl_category  on (tbl_product.order_quantity > 99 and tbl_product.category = tbl_category.cateCode)
+	    group by tbl_product.category, tbl_category.cateName  order by tbl_product.category
+ 	</select>
+ 	
+ 	<!-- 베스트 상품 끝 끝 -->
+ 	
+ 	<!-- 알뜰상품 목록 가져오기 -->
+	<select id="saleProduct" parameterType="java.util.HashMap" resultType="com.kurly.dto.ProductVO">
+		select * from tbl_product where discount > 0 and discount is not null
+		<if test='checkedCategory != null'>
+			and category in
+			<foreach collection='checkedCategory' item='checkedCategory' open='(' close=")" separator=','>
+				#{checkedCategory}
+			</foreach>
+		</if>
+		<if test='sortType != null'>
+			<choose>
+				<when test='sortType.equals("1")'>
+					order by pcode
+				</when>
+				<when test='sortType.equals("2")'>
+					order by pregdate desc NULLS LAST
+				</when>
+				<when test='sortType.equals("3")'>
+					order by stock NULLS LAST
+				</when>
+				<when test='sortType.equals("4")'>
+					order by discount desc NULLS LAST
+				</when>
+				<when test='sortType.equals("5")'>
+					order by price NULLS LAST
+				</when>
+				<when test='sortType.equals("6")'>
+					order by price desc NULLS LAST
+				</when>
+				<otherwise>
+					order by discount desc
+				</otherwise>		
+			</choose>
+		</if>
+		<if test='sortType == null'>
+			order by discount desc
+		</if>
+	</select>
+	
+	<select id="countSaleProduct" parameterType="java.util.HashMap" resultType="int">
+ 		select count(*) from tbl_product where discount > 0 and discount is not null
+		<if test='checkedCategory != null'>
+			and category in 
+			<foreach collection='checkedCategory' item='checkedCategory' open='(' close=")" separator=','>
+				#{checkedCategory}
+			</foreach>
+		</if>
+ 	</select>
+ 	
+ 	<!-- 알뜰상품 카테고리 목록 가져오기 -->
+ 	<select id="categoryFilterSale" resultType="com.kurly.dto.CategoryListVO">
+		select distinct tbl_product.category, count(tbl_product.category) countCategoryProduct, tbl_category.cateName from tbl_product 
+		    join tbl_category  on (tbl_product.discount > 0 and tbl_product.discount is not null and tbl_product.category = tbl_category.cateCode)
+		    group by tbl_product.category, tbl_category.cateName  order by tbl_product.category
+ 	</select>
+ 	
+ 	<!-- 알뜰 상품 끝 끝 -->
+ 	
+ 	<!-- 전체 카테고리 가져오기 -->
+	<select id="allCategory" resultType="com.kurly.dto.CategoryVO">
+		select * from tbl_category where tier = 1  order by cateCode
+	</select>
+ 	
+ </mapper>
