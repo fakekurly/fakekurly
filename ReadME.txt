@@ -109,4 +109,25 @@ jungin-2 : package : com.kurly
 	resource/templates/collections 폴더 추가
 		category_product.html / newProduct.html → 추가
 		
+------------------------------------------------
+12/06 22:19 hmj
+* 헤더 수정(html,css), 알뜰,베스트,혜택 추가
+
+-  header를 기존 컬리와 비교하여 폰트, 햄버거 아이콘 추가, 찾기 버튼 아이콘 추가 등 수정(css, html)
+-  카테고리, 신상품, 베스트, 알뜰쇼핑, 혜택 부분 모두 추가 및 수정 완료
+	com.kurly : ProductController/ ProductMapper/ ProductService/ ProductServiceImpl 내용 추가
+	resources
+		productMapper 내용 추가
+		collections : benefits/ bestProduct/ saleProduct 추가 + category_product/ newProduct 수정
+- oracle : tbl_product에서 수정
+		order_quantity에 랜덤 값 넣기(최대 3자리수 랜덤)
+			update tbl_product set order_quantity = abs(rpad(dbms_random.random,3));
+		간식 카테고리 건강식품으로 되어있는 것 수정 
+		☆ 상품 페이지 관련 폴더에 올려놓은 sql을 적용한 경우
+			update tbl_product set category = 'I0000' where category = 'J0000';
+			
+★ 상품 페이지 관련 폴더를 통해 사용한 tbl_category, tbl_product 확인 가능 → tbl_product에 (order_quantity, number) 추가함
+tbl_category에 항목이 많은 이유는 서브 카테고리를 넣어놨기 때문 → tier가 1인 행만 넣어도 가능(서브 뺌)
+		    
+		
 
