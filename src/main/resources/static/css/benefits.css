@@ -1,0 +1,11 @@
+#bannersArea{
+	left: 0%;
+	right: 0%;
+}
+
+#banner{
+	position: absolute;
+	width: 1050px;
+	left: calc(50% - 1050px/2);
+}
+

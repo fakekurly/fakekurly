@@ -1,9 +1,14 @@
+body{
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
 #wrap{
 	
 	position: relative;
     width: 1050px;
-    height: 100px;
+    height: 80px;
     margin-bottom:80px;
+   
 }
 #container{
 	height:100%;
@@ -17,68 +22,66 @@ header {
   margin-top:30px;
   display: flex;
   align-items:center;
-  position: relative;
 }
-
-ul { list-style:none; }
 
 .search {
-  position: absolute;
-  left: 30%;
-  position: translateX(-50%);
-  width: 400px;
-  height: 60px;
+  position: relative;
+  width: 300px;
+  margin: 150px;
+  
 }
 
-.findKeyword {
-  width: 400px;
-  height: 50px;
+input.findKeyword {
+  width: 100%;
   border: 1px solid #5F0080;
-  box-sizing : border-box;
   border-radius: 8px;
-  padding: 12px;
-  font-size: 16px;
-  position: center;
-}
-.findKeyword:focus {
-	outline: none;
-	font-size: 16px;	
+  padding: 10px 12px;
+  font-size: 14px;
+  
+  	font-weight: 400;
+	line-height: 22px;
+	letter-spacing: -0.33px;
 }
 
 #searchimg {
   position : absolute;
-  width: 20px;
-  height:20px;
-  top: 15px;
-  right: 15px;
+  width: 17px;
+  height:17px;
+  top: 13.5px;
+  
+  left:295.5px;
   margin: 0;
   cursor:pointer;
+  
+  filter: invert(15%) sepia(76%) saturate(7459%) hue-rotate(285deg) brightness(55%) contrast(118%);
 }
 
 .searchbutton{
+
 	border:0;
 	outline:0;
 	background-color:transparent;
 }
 
-.user_menu{
+ul{
+	list-style:none;
+}
+
+#user_menu{
 	top:5px;
 	float:right;
 	display:flex;
+	height: 35px;
 }
 
-.menu_personal {
-	position: absolute;
-	right: 0;
-}
-
-a {
+a{
 	text-decoration:none;
 	color:black;
+	margin:0;
 }
 a:hover{
-	color: #5F0080;
-	font-weight: bold;	
+	color:rgb(95, 0, 128);
+	
 }
 a:visited { text-decoration: none; }
 
@@ -95,18 +98,23 @@ a:visited { text-decoration: none; }
   width:150px;
   background:white;
   z-index:999;
+
 }
 
 .dropdown-content a{
   display : block;
+ 
 }
+
 
 .dropdown-content>ul>li{
   margin-bottom:10px;
   z-index:999;
 }
 
+
 .dropdown:hover .dropdown-content {
+
   display: block;
   z-index:2;
 }
@@ -116,6 +124,8 @@ a:visited { text-decoration: none; }
 	line-height:2;
 	z-index:999;
 	position:relative;
+	text-align: left;
+	margin-left: 10px;
 }
 .menu-v2 .submenu{
 	position:absolute;
@@ -131,6 +141,7 @@ a:visited { text-decoration: none; }
 }
 .submenu{
 	padding-left:0;
+
 }
 .menu-v2:hover{
 	background-color:white;
@@ -145,4 +156,66 @@ a:visited { text-decoration: none; }
 	display:inline-block;
 	align-items:center;
 	
+}
+
+span.kurly {
+	width: 66.45px;
+	height: 27px;
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 24px;
+	
+	margin:0px;
+	
+	color: #5F0080;
+}
+
+span.dropbtn{
+	height: 24px;
+	left: 34.21%;
+	
+	font-weight: 450;
+	font-size: 16px;
+	line-height: 20px;
+	
+	letter-spacing: -0.3px;
+	
+	color: #333333;
+	
+	margin:0;
+	
+	display: flex;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.hamburgerMenu{
+	width: 22px;
+	height: 22px;
+	margin-right: 4px;
+	
+}
+
+.menuItem{
+	height: 24px;
+	left: 34.21%;
+	
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 20px;
+	
+	letter-spacing: -0.3px;
+	
+	color: #333333;
+	
+	margin-left:160px;
+}
+
+.gotoSignup, .loginMenu, .serviceCenter{
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 14px;
+
+	letter-spacing: -0.3px;
+	margin:10px;
 }

@@ -1,6 +1,7 @@
 body{
 	font-family: 'Noto Sans KR', sans-serif;
 }
+
 a{ 
 	color:#000000;
 	text-decoration:none;
@@ -357,6 +358,7 @@ input.companyCheck{
 	height: 16px;
 	margin-right: 4px;
 	left: 0;
+	cursor: pointer;
 }
 
 input.categoryCheck{
@@ -364,6 +366,7 @@ input.categoryCheck{
 	height: 16px;
 	margin-right: 4px;
 	left: 0;
+	cursor: pointer;
 }
 
 .companyCheckLabel{
@@ -371,6 +374,7 @@ input.categoryCheck{
 	text-align: center;
 	margin-right: 4px;
 	margin-top:2px;
+	cursor: pointer;
 }
 
 .companyCount{
