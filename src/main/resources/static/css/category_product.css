@@ -49,6 +49,29 @@ a:hover{
 	color: #333333;
 }
 
+#aboutSearch {
+	/* top :247px; */
+	width: 1050px;
+	
+	margin-bottom: 25px;
+
+	font-weight: 500;
+	font-size: 28px;
+	line-height: 35px;
+	
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	letter-spacing: -1px;
+	
+	color: #333333;
+}
+
+span.searchKeyword{
+	color:#5F0080;
+}
+
 #subCategoryArea{
 	box-sizing: border-box;
 
