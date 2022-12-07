@@ -1,8 +1,6 @@
 package com.kurly.dto;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

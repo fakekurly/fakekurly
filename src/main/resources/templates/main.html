@@ -121,7 +121,7 @@
 <!-- 4개 항목 -->
 <div class="grid_1">
 	<div class="grid_1_item" th:each="ssolist : ${ssolist}">
-		<a th:href="@{|/product/productdetail?pcode=${ssolist.pcode}|}">
+		<a th:href="@{|/product/productdetail?pcode=${ssolist.pcode}&page=1|}">
 			<img th:src="|/images/${ssolist.stored_filename}|" width=250; height=320; alt="상품 이미지" loading="lazy" />
 		</a>
 		<span class="product_title">[[${ssolist.pname}]]</span>

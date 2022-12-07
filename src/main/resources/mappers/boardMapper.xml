@@ -4,71 +4,16 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kurly.mapper.BoardMapper">
 
-<!-- 게시물 목록 보기 -->
-<select id="list" parameterType="java.util.HashMap" resultType="com.kurly.dto.BoardVO">
-	select rnum seq,seqno,mtitle,mwriter,mregdate,hitno from  
-	(select seqno,mtitle,mwriter,hitno,to_char(mregdate,'YYYY-MM-DD HH24:MI:SS') as mregdate, 
-	<choose>
-		<when test='searchType.equals("mtitle")'> 
-			row_number() over(order by seqno desc) as rnum from tbl_board  
-			where mtitle like '%'||#{keyword}||'%') board 
-		</when>
-		
-		<when test='searchType.equals("mcontent")'>	 
-			row_number() over(order by seqno desc) as rnum from tbl_board  
-			where mcontent like '%'||#{keyword}||'%') board 
-		</when>	 
-
-		<when test='searchType.equals("mtitle_mcontent")'>
-			row_number() over(order by seqno desc) as rnum from tbl_board  
-			where mcontent like '%'||#{keyword}||'%' or mtitle like '%'||#{keyword}||'%') board  		
-		</when> 
-		 	
-		<when test='searchType.equals("mwriter")'>
-			row_number() over(order by seqno desc) as rnum from tbl_board  
-			where mwriter like '%'||#{keyword}||'%') board 
-		</when>
-		<otherwise>	
-			row_number() over(order by seqno desc) as rnum from tbl_board) board 
-		
-		</otherwise>	
-	</choose> 
-		where rnum between #{startPoint} and #{endPoint} order by seqno desc
-	
-</select>
-
-<!-- 전체 게시물 갯수 계산 -->
-<select id="totalCount" parameterType="java.util.HashMap" resultType="int">
-	select count(*) from tbl_board 
-		<choose>
-			<when test='searchType.equals("mtitle")'>
-				where mtitle like '%'||#{keyword}||'%' 
-			</when>
-			
-			<when test='searchType.equals("mcontent")'>
-				where mcontent like '%'||#{keyword}||'%' 
-			</when>	
-
-			<when test='searchType.equals("mtitle_mcontent")'>
-				where mcontent like '%'||#{keyword}||'%' or mtitle like '%'||#{keyword}||'%' 
-			</when>	
-			
-			<when test='searchType.equals("mwriter")'>
-				where mwriter like '%'||#{keyword}||'%'
-			</when>
-		</choose>			
-</select> 
-
 <!-- 게시물 내용 보기 -->
 <select id="view" parameterType="int" resultType="com.kurly.dto.BoardVO">
 	select seqno,userid,mtitle,mwriter,to_char(mregdate,'YYYY-MM-DD HH24:MI:SS') as mregdate,
-		mcontent,likecnt,dislikecnt from tbl_board where seqno = #{seqno}
+		mcontent,pcode from tbl_board where seqno = #{seqno}
 </select>
 
 <!-- 게시물 등록 -->
 <insert id="write" parameterType="com.kurly.dto.BoardVO">
-	insert into tbl_board (seqno,mwriter,mtitle,mcontent,mregdate,userid) 
-		values (#{seqno},#{mwriter},#{mtitle},#{mcontent},sysdate,#{userid})
+	insert into tbl_board (seqno,mwriter,mtitle,mcontent,mregdate,userid,pcode) 
+		values (#{seqno},#{mwriter},#{mtitle},#{mcontent},sysdate,#{userid},#{pcode})
 </insert>
 
 <!-- 게시물 번호 구하기 - 시퀀스의 Last Number 사용 -->
@@ -136,9 +81,9 @@
 
 <!-- 파일 업로드 정보 등록 -->
 <insert id="fileInfoRegistry" parameterType="java.util.HashMap">
-	insert into tbl_file (fileseqno,seqno,userid,org_filename,stored_filename,filesize,checkfile) 
+	insert into tbl_file (fileseqno,seqno,userid,org_filename,stored_filename,filesize,checkfile,pcode) 
 		values(tbl_file_seq.nextval,#{seqno},#{userid},#{org_filename},
-		#{stored_filename},#{filesize},'Y')
+		#{stored_filename},#{filesize},'Y',#{pcode})
 </insert>
 
 <!-- 다운로드를 위한 파일 정보 가져오기 -->

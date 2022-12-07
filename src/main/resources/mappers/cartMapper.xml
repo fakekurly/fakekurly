@@ -22,7 +22,7 @@
 </select>
 
 <select id="getCartList" parameterType="String" resultType="com.kurly.dto.CartVO">
-	 SELECT a.pcode as pcode, a.pcount as pcount, b.pname as pname, b.price as price, b.org_filename FROM tbl_cart a 
+	 SELECT a.pcode as pcode, a.pcount as pcount, b.pname as pname, b.price as price, b.stored_filename FROM tbl_cart a 
 	 INNER JOIN tbl_product b ON a.pcode=b.pcode AND a.customer=#{customer}
 </select>
 

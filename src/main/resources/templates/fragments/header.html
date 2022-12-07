@@ -12,8 +12,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
-<title>마켓컬리 :: 내일의 장보기, 마켓컬리</title>
-
+<title>페이크컬리 :: 오늘의 장보기, 페이크컬리</title>
 <script>
 $(document).ready(function(){
 	//menu v1 
@@ -48,6 +47,7 @@ if( regExp.test(obj.value) ){
 function findProduct(){
 	
 	var findKeyword =  $("#findKeyword").val();
+	// ★ 주소 변경 필요 ★
 	location.href = '/collections/searchProduct?keyword=' + findKeyword;
 }
 
@@ -56,9 +56,7 @@ function press(){
 	if(event.keyCode == 13){findProduct();}
 	
 }
-
 </script>
-
 </head>
 <body>
 <!-- 
@@ -69,14 +67,15 @@ function press(){
 	<div id="wrap">
 		<div id="user_menu">
 			<ul id="user_menu">
-				<li class="gotoSignup"><a href="/member/signup">회원가입</a></li>
+				<li class="gotoSignup"><a href="/member/signup" th:if="${session.userid == null}">회원가입</a>
+										<a href="/userManage/logout" th:if="${session.userid != null}">로그아웃</a></li>
 				<li class="loginMenu"><a href="/member/login" th:if="${session.userid == null}"> 로그인</a>
-										<a href="#" th:if="${session.userid != null}"> [[${session.username}]] 님</a></li>
+										<a href="/userManage/memberInfo" th:if="${session.userid != null}"> [[${session.username}]] 님</a></li>
 				<li class="serviceCenter"><a href="#"> 고객센터 ▼</a></li>
 			</ul>
 		</div><!-- end of "user_menu" -->
 		<header>
-			<a href="#" style='margin:10px; padding:0'><img src='/icons/logo.svg' style='margin:10px; padding:0'></a>
+			<a href="/main" style='margin:10px; padding:0'><img src='/icons/logo.svg' style='margin:10px; padding:0'></a>
 			<span class="kurly">마켓컬리</span>
 			<div class="search">
 				<input type="text" id="findKeyword" name="findKeyword" placeholder="검색어를 입력해주세요" class="findKeyword" onkeydown="press()" onkeyup="characterCheck(this)">
@@ -84,8 +83,8 @@ function press(){
 			</div>
 			<div class="menu_personal">
 				<a href="#"><img src="/icons/gps.png" width="30px" height="30px"></a> <!-- 각 기능이 있는 파일 링크 걸기 -->
-				<a href="#"><img src="/icons/cart.png" width="30px" height="30px"></a>
-				<a href="#"><img src="/icons/list.png" width="30px" height="30px"></a>
+				<a href="/cart/cartlist"><img src="/icons/cart.png" width="30px" height="30px"></a>
+				<a href="/order/orderlist"><img src="/icons/list.png" width="30px" height="30px"></a>
 			</div>
 		</header>
 		<div id="menu">
@@ -112,8 +111,8 @@ function press(){
 					<div class="dropdown-content" style="margin:0;">
 						<ul id="nav-v2" style="margin-left:0; padding-left:0;">
 							<li class="menu-v2"><a href="/collections/category_product?category=A0000">채소</a></li>
-							<li class="menu-v2"><a href="/collections/category_product?category=B0000">과일</a></li>
-							<li class="menu-v2"><a href="/collections/category_product?category=C0000">수산물</a></li>
+							<li class="menu-v2"><a href="/collections/category_product?category=B0000">과일·견과·쌀</a></li>
+							<li class="menu-v2"><a href="/collections/category_product?category=C0000">수산·해산·건어물</a></li>
 							<li class="menu-v2"><a href="/collections/category_product?category=D0000">정육·계란</a></li>
 							<li class="menu-v2"><a href="/collections/category_product?category=E0000">국·반찬·메인요리</a></li>
 							<li class="menu-v2"><a href="/collections/category_product?category=F0000">샐러드·간편식</a></li>

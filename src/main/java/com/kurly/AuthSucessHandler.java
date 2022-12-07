@@ -37,8 +37,8 @@ public class AuthSucessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		session.setAttribute("role", member.getRole());
 		log.info("Session 설정 완료 !!!");
 
-		/*
-		//패스워드 변경 후 30일이 경과했는지 확인
+		
+		/*//패스워드 변경 후 30일이 경과했는지 확인
 		MemberVO pwcheck = new MemberVO();
 		pwcheck = service.pwcheck(member.getUserid());
 		
@@ -46,7 +46,8 @@ public class AuthSucessHandler extends SimpleUrlAuthenticationSuccessHandler {
 			setDefaultTargetUrl("/userManage/pwCheckNotice"); 
 		}else setDefaultTargetUrl("/userManage/welcome");
 		*/
-        
+		
+		setDefaultTargetUrl("/main");
         super.onAuthenticationSuccess(request, response, authentication);
     }
 }

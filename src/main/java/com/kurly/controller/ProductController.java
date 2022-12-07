@@ -1,8 +1,8 @@
 package com.kurly.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -15,10 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kurly.dto.BrandVO;
-import com.kurly.dto.CategoryVO;
 import com.kurly.dto.ProductVO;
 import com.kurly.service.ProductService;
+import com.kurly.util.Page;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -28,15 +27,6 @@ public class ProductController {
 
 	@Autowired
 	ProductService service;
-	
-	@GetMapping("/product/productdetail")
-	public void GetDetail(Model model, HttpSession session,
-			@RequestParam ("pcode")int pcode) throws Exception {
-		
-		ProductVO product = service.getProductDetail(pcode);
-		String userid = (String)session.getAttribute("userid");
-		model.addAttribute("productdetail", product);
-	}
 	
 	@GetMapping("/main")
 	public void GetIndex(Model model, HttpSession session) throws Exception {
@@ -51,7 +41,7 @@ public class ProductController {
 	}
 	
 	//상품 목록
-		@RequestMapping("/collections/category_product")
+	@RequestMapping("/collections/category_product")
 	public void GetCategoryProductList(Model model,
 						@RequestParam("category") String category,
 						@RequestParam(name="sortType", required=false) String sortType,
@@ -77,7 +67,7 @@ public class ProductController {
 						@RequestParam(name="sortType", required=false) String sortType,
 						@RequestParam(value="checkedBrand[]") List<String> checkedBrand
 													) throws Exception{
-
+	
 		//log.info("카테고리 : " + category);
 		//log.info("서브카테고리 : " + subCategory);
 		//log.info("배열 확인 : " + checkedBrand);
@@ -92,7 +82,7 @@ public class ProductController {
 		 Map<String, Object> result = new HashMap<>();
 		 result.put("category", service.mainCategory(category));
 		 result.put("categoryProduct", service.categoryProduct(data));
-
+	
 		 return result;
 	}
 	
@@ -119,7 +109,7 @@ public class ProductController {
 						 @RequestParam(name="sortType", required=false) String sortType,
 						 @RequestParam(value="checkedCategory[]") List<String> checkedCategory
 													) throws Exception{
-
+	
 		//log.info("배열 확인 : " + checkedCategory);
 		
 		Map<String, Object> data = new HashMap<>();
@@ -130,7 +120,7 @@ public class ProductController {
 		
 		 Map<String, Object> result = new HashMap<>();
 		 result.put("categoryProduct", service.newProduct(data));
- 
+	
 		//log.info("결과 :" + result);
 		 
 		 return result;
@@ -159,7 +149,7 @@ public class ProductController {
 						@RequestParam(name="sortType", required=false) String sortType,
 						@RequestParam(value="checkedCategory[]") List<String> checkedCategory
 													) throws Exception{
-
+	
 		//log.info("배열 확인 : " + checkedCategory);
 		
 		Map<String, Object> data = new HashMap<>();
@@ -170,7 +160,7 @@ public class ProductController {
 		
 		 Map<String, Object> result = new HashMap<>();
 		 result.put("categoryProduct", service.saleProduct(data));
- 
+	
 		//log.info("결과 :" + result);
 		 
 		 return result;
@@ -193,28 +183,28 @@ public class ProductController {
 			
 		}
 		
-		@ResponseBody
-		@RequestMapping("/collections/bestProductfilter")
-		public Map<String, Object> GetBestProductfilter(Model model, 
+	@ResponseBody
+	@RequestMapping("/collections/bestProductfilter")
+	public Map<String, Object> GetBestProductfilter(Model model, 
 						@RequestParam(name="sortType", required=false) String sortType,
 						@RequestParam(value="checkedCategory[]") List<String> checkedCategory
 														) throws Exception{
-
-			//log.info("배열 확인 : " + checkedCategory);
+	
+		//log.info("배열 확인 : " + checkedCategory);
 			
-			Map<String, Object> data = new HashMap<>();
-			data.put("sortType", sortType);
-			data.put("checkedCategory", checkedCategory);
+		Map<String, Object> data = new HashMap<>();
+		data.put("sortType", sortType);
+		data.put("checkedCategory", checkedCategory);
 			
-			//log.info("데이터 :" + data); 
+		//log.info("데이터 :" + data); 
 			
-			 Map<String, Object> result = new HashMap<>();
-			 result.put("categoryProduct", service.bestProduct(data));
+		Map<String, Object> result = new HashMap<>();
+			result.put("categoryProduct", service.bestProduct(data));
 	 
-			//log.info("결과 :" + result);
+		//log.info("결과 :" + result);
 			 
-			 return result;
-		}
+		return result;
+	}
 	
 	@RequestMapping("/collections/benefits")
 	public void GetBenefits(Model model) throws Exception {
@@ -275,5 +265,43 @@ public class ProductController {
 					@RequestParam(name="keyword") String keyword) {
 	
 		model.addAttribute("keyword", keyword);
+	}
+	
+	//상세페이지 내용 보기
+	@GetMapping("/product/productdetail")
+	public void GetProductdetail(Model model,HttpSession session, @RequestParam("pcode") int pcode,
+			 					@RequestParam(name="page") int pageNum, 
+			 					@RequestParam(name="searchType", defaultValue="mtitle", required=false) String searchType, 
+			 					@RequestParam(name="keyword", defaultValue="", required=false) String keyword) throws Exception{
+		ProductVO product = service.productdetail(pcode);
+		String userid = (String)session.getAttribute("userid");
+		model.addAttribute("productdetail", product);
+		
+		List<ProductVO> popular = service.popular(pcode);
+		model.addAttribute("popular", popular);
+		
+		
+		int listCount = 5;
+		int postNum = 5; //한 페이지에 보여질 게시물 목록 갯수
+		int startPoint = (pageNum -1)*postNum + 1; 
+		int endPoint = postNum*pageNum;
+		
+		Map<String,Object> data = new HashMap<>();
+		data.put("startPoint", startPoint);
+		data.put("endPoint", endPoint);
+		data.put("searchType", searchType);
+		data.put("keyword", keyword);
+		data.put("pcode", pcode);
+	
+		Page page = new Page();
+		int totalCount = service.totalCount(data);
+		
+		System.out.println(service.list(data));
+				
+		model.addAttribute("list", service.list(data));
+		model.addAttribute("page", pageNum);
+		model.addAttribute("searchType", searchType);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("pageListView", page.getPageList(pageNum, postNum, listCount, totalCount, searchType, keyword, pcode));
 	}
 }

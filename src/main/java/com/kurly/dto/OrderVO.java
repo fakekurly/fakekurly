@@ -17,7 +17,7 @@ public class OrderVO {
 	private int pcount;
 	private String pname;
     private int price;
-    private String org_filename;
+    private String stored_filename;
 	private String state;
 	private String order_date;
 	private String address;

@@ -117,6 +117,7 @@ a:visited { text-decoration: none; }
 
   display: block;
   z-index:2;
+  top: 20px;
 }
 
 #nav-v2{width:150px;text-align:center;z-index:999;}

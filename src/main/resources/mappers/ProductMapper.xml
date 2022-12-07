@@ -46,10 +46,10 @@
 					order by discount desc NULLS LAST
 				</when>
 				<when test='sortType.equals("5")'>
-					order by price NULLS LAST
+					order by (price * (1 - discount/100.00)) NULLS LAST
 				</when>
 				<when test='sortType.equals("6")'>
-					order by price desc NULLS LAST
+					order by (price * (1 - discount/100.00)) desc NULLS LAST
 				</when>
 				<otherwise>
 					order by pcode
@@ -115,10 +115,10 @@
 					order by discount desc NULLS LAST
 				</when>
 				<when test='sortType.equals("5")'>
-					order by price NULLS LAST
+					order by (price * (1 - discount/100.00)) NULLS LAST
 				</when>
 				<when test='sortType.equals("6")'>
-					order by price desc NULLS LAST
+					order by (price * (1 - discount/100.00)) desc NULLS LAST
 				</when>
 				<otherwise>
 					order by pregdate
@@ -173,10 +173,10 @@
 					order by discount desc NULLS LAST
 				</when>
 				<when test='sortType.equals("5")'>
-					order by price NULLS LAST
+					order by (price * (1 - discount/100.00)) NULLS LAST
 				</when>
 				<when test='sortType.equals("6")'>
-					order by price desc NULLS LAST
+					order by (price * (1 - discount/100.00)) desc NULLS LAST
 				</when>
 				<otherwise>
 					order by order_quantity
@@ -231,10 +231,10 @@
 					order by discount desc NULLS LAST
 				</when>
 				<when test='sortType.equals("5")'>
-					order by price NULLS LAST
+					order by (price * (1 - discount/100.00)) NULLS LAST
 				</when>
 				<when test='sortType.equals("6")'>
-					order by price desc NULLS LAST
+					order by (price * (1 - discount/100.00)) desc NULLS LAST
 				</when>
 				<otherwise>
 					order by discount desc
@@ -294,10 +294,10 @@
 					order by discount desc NULLS LAST
 				</when>
 				<when test='sortType.equals("5")'>
-					order by price NULLS LAST
+					order by (price * (1 - discount/100.00)) NULLS LAST
 				</when>
 				<when test='sortType.equals("6")'>
-					order by price desc NULLS LAST
+					order by (price * (1 - discount/100.00)) desc NULLS LAST
 				</when>
 				<otherwise>
 					order by pcode
@@ -323,4 +323,67 @@
 		    group by tbl_product.category, tbl_category.cateName  order by tbl_product.category
  	</select>
  	
+ 		<!-- 상품상세정보 보기 -->
+	<select id="productdetail" parameterType="int" resultType="com.kurly.dto.ProductVO">
+		select * from tbl_product where pcode = #{pcode}
+	</select>
+
+	 <select id="popular" parameterType="com.kurly.dto.ProductVO" resultType="com.kurly.dto.ProductVO" >
+      select pcode, pname, price, postscript, stored_filename from (select * from tbl_product order by order_quantity desc) where rownum between 1 and 4
+   </select>
+
+	<!-- 게시물 목록 보기 -->
+	<select id="list" parameterType="java.util.HashMap" resultType="com.kurly.dto.BoardVO">
+		select rnum seq,seqno,mtitle,mwriter,mregdate,hitno,pcode from  
+		(select seqno,mtitle,mwriter,hitno,pcode,to_char(mregdate,'YYYY-MM-DD HH24:MI:SS') as mregdate, 
+			<choose>
+			<when test='searchType.equals("mtitle")'> 
+				row_number() over(order by seqno desc) as rnum from tbl_board  
+				where pcode=#{pcode} and mtitle like '%'||#{keyword}||'%') board 
+			</when>
+		
+			<when test='searchType.equals("mcontent")'>	 
+				row_number() over(order by seqno desc) as rnum from tbl_board  
+				where pcode=#{pcode} and mcontent like '%'||#{keyword}||'%') board 
+			</when>	 
+	
+			<when test='searchType.equals("mtitle_mcontent")'>
+				row_number() over(order by seqno desc) as rnum from tbl_board  
+				where pcode=#{pcode} and mcontent like '%'||#{keyword}||'%' or mtitle like '%'||#{keyword}||'%') board  		
+			</when> 
+		 	
+			<when test='searchType.equals("mwriter")'>
+				row_number() over(order by seqno desc) as rnum from tbl_board  
+				where pcode=#{pcode} and mwriter like '%'||#{keyword}||'%') board 
+			</when>
+			<otherwise>	
+				row_number() over(order by seqno desc) as rnum from tbl_board pcode=#{pcode}) board 
+		
+			</otherwise>	
+		</choose> 
+			where rnum between #{startPoint} and #{endPoint} order by seqno desc
+	</select>
+
+	<!-- 전체 게시물 갯수 계산 -->
+	<select id="totalCount" parameterType="java.util.HashMap" resultType="int">
+		select count(*) from tbl_board 
+			<choose>
+				<when test='searchType.equals("mtitle")'>
+					where mtitle like '%'||#{keyword}||'%' 
+				</when>
+			
+				<when test='searchType.equals("mcontent")'>
+					where mcontent like '%'||#{keyword}||'%' 
+				</when>	
+
+				<when test='searchType.equals("mtitle_mcontent")'>
+					where mcontent like '%'||#{keyword}||'%' or mtitle like '%'||#{keyword}||'%' 
+				</when>	
+			
+				<when test='searchType.equals("mwriter")'>
+					where mwriter like '%'||#{keyword}||'%'
+				</when>
+			</choose>			
+	</select> 
+	
  </mapper>

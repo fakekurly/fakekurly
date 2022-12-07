@@ -8,7 +8,7 @@
 <!-- 주문서 -->
 <select id="goOrderSheet" parameterType="HashMap" resultType="com.kurly.dto.OrderVO">
 SELECT a.pcode, b.pcode, a.pcount , b.pname, b.price,
- b.org_filename FROM tbl_cart a INNER JOIN tbl_product b ON b.pcode=#{pcode} AND a.pcode=#{pcode} AND a.customer=#{customer}
+ b.stored_filename FROM tbl_cart a INNER JOIN tbl_product b ON b.pcode=#{pcode} AND a.pcode=#{pcode} AND a.customer=#{customer}
 </select>
 
 
@@ -53,7 +53,7 @@ a.pcount, b.address FROM tbl_cart a INNER JOIN tbl_member b ON a.customer = b.us
 <!-- 주문 목록 출력 -->
 <select id="getOrderList" parameterType="String" resultType="com.kurly.dto.OrderVO">
 SELECT a.order_code, a.pcount, a.state as state, a.order_date AS order_date,
-b.org_filename , b.pname, b.price as price  FROM tbl_order a INNER JOIN tbl_product  b 
+b.stored_filename , b.pname, b.price as price  FROM tbl_order a INNER JOIN tbl_product  b 
 ON a.customer = #{customer} AND a.pcode = b.pcode ORDER BY order_date DESC
 </select>
 

@@ -30,6 +30,7 @@ public class AuthFailureHandler extends SimpleUrlAuthenticationFailureHandler {
             msg = "AUTHORITY_NOT_PERMITTED";
         }
 
+        // GET 방식으로 메시지를 전달한다.
         setDefaultFailureUrl("/member/login?message=" + msg);
         super.onAuthenticationFailure(request, response, exception);
 

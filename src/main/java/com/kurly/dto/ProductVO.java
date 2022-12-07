@@ -1,5 +1,7 @@
 package com.kurly.dto;
 
+import java.time.LocalDateTime;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +16,6 @@ public class ProductVO {
 	private String company;
 	private int price;
 	private int stock;
-	private String category;
 	private String description;
 	private String postscript;
 	private String image;

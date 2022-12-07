@@ -15,6 +15,6 @@ public class CartVO {
 	private String isorder;
 	private String pname;
 	private int price;
-	private String org_filename;
+	private String stored_filename;
 
 }

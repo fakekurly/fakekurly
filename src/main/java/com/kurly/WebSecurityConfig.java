@@ -45,6 +45,7 @@ public class WebSecurityConfig {
 	    http.authorizeRequests()
 	    	.antMatchers("/main").permitAll()
 	    	.antMatchers("/member/**").permitAll()
+	    	.antMatchers("/collections/**").permitAll()
 	    	.antMatchers("/product/**").permitAll()	//로그인하지 않아도 쇼핑몰을 구경할 수 있도록
 	    	.antMatchers("/css/**", "/icons/**", "/js/**").permitAll()
 	    	.antMatchers("/userManage/**").hasAnyAuthority("USER","ADMIN")

@@ -136,6 +136,9 @@ filesize number
 userid varchar2
 seqno number 추가
 
-		    
-		
+----------------------------------------
+12/07 17:45	최종 발표본
+	* 전체적으로 수정됨
+	* 이미지 파일을 불러오는 부분에서 org_filename -> stored_filename으로 변경
+	* C:\Repository\images 내의 이미지 파일의 이름 변경 (공유 폴더에 있음)
 

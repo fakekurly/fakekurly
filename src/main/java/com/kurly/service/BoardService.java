@@ -10,12 +10,6 @@ import com.kurly.dto.ReplyVO;
 
 public interface BoardService {
 
-	//게시물 목록보기
-	public List<BoardVO> list(Map<String,Object> data) throws Exception;
-
-	//전체 게시물 갯수 계산
-	public int totalCount(Map<String,Object> data) throws Exception;
-	
 	//게시물 내용 보기
 	public BoardVO view(int seqno) throws Exception;
 	
@@ -61,7 +55,6 @@ public interface BoardService {
 	//게시물 파일 삭제
 	public void delete_file(int seqno) throws Exception;
 	
-		
 	//댓글 보기
 	public List<ReplyVO> replyView(ReplyVO reply) throws Exception;
 	

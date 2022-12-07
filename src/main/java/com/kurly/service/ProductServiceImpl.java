@@ -1,10 +1,14 @@
 package com.kurly.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kurly.dto.BoardVO;
+import com.kurly.dto.BrandVO;
+import com.kurly.dto.CategoryVO;
 import com.kurly.dto.ProductVO;
 import com.kurly.mapper.ProductMapper;
 
@@ -15,9 +19,9 @@ public class ProductServiceImpl implements ProductService {
 	ProductMapper mapper;
 	
 	// 상품 한 개의 모든 정보를 가져온다
-	public ProductVO getProductDetail(int pcode) throws Exception {
-		return mapper.getProductDetail(pcode);		
-	}
+//	public ProductVO getProductDetail(int pcode) throws Exception {
+//		return mapper.getProductDetail(pcode);		
+//	}
 	
 	// 재고가 5개 미만인 상품의 정보를 가져온다
 	public List<ProductVO> getSoonSoldOut() throws Exception {
@@ -25,13 +29,13 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	//상품 목록
-		//카테고리에 종류에 맞는 상품 목록 가져오기
+	//카테고리에 종류에 맞는 상품 목록 가져오기
 	@Override
 	public List<ProductVO> categoryProduct(Map<String,Object> data) throws Exception{
 		
 		return mapper.categoryProduct(data);
 	};
-
+	
 	//카데고리코드에 맞는 메인카테고리 정보 가져오기
 	@Override
 	public CategoryVO mainCategory(String category) throws Exception{
@@ -127,14 +131,14 @@ public class ProductServiceImpl implements ProductService {
 		return mapper.categoryFilterBest();
 	};
 	
-	//카테고리 목록 가져오기
+	//카데고리 전체 목록 가져오기
 	@Override
-	public List<CategoryVO> allCategory() throws Exception{
-		
+	public List<CategoryVO> allCategory() throws Exception {
 		return mapper.allCategory();
-	}
+	};
 	
-		//상품 찾기
+	
+	//상품 찾기
 	//상품 찾기 목록
 	@Override
 	public List<ProductVO> searchProduct(Map<String,Object> data) throws Exception{
@@ -156,4 +160,30 @@ public class ProductServiceImpl implements ProductService {
 		return mapper.categoryFilterSearch(data);
 	};
 	
+	//상세페이지 보기
+	@Override
+	public ProductVO productdetail(int pcode) throws Exception{
+		return mapper.productdetail(pcode);
+	}
+	
+	//인기상품
+	@Override
+	public List<ProductVO> popular(int order_quantity) throws Exception {
+		return mapper.popular(order_quantity);
+			
+	}
+		
+	//게시물 목록 보기
+	@Override
+	public List<BoardVO> list(Map<String,Object> data) throws Exception {
+				
+		return mapper.list(data);
+	}
+			
+	//전체 게시물 갯수 계산
+	@Override
+	public int totalCount(Map<String,Object> data) throws Exception{
+		return mapper.totalCount(data);
+	}
+
 }

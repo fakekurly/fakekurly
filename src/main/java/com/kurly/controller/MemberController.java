@@ -45,7 +45,7 @@ public class MemberController {
 		member.setPassword(pwd);
 		
 		service.memberRegistry(member);
-		return "redirect:/product/detail?pcode=1";
+		return "redirect:/member/login";
 	}
 	
 	//사용자 등록 시 아이디 중복 확인
@@ -81,13 +81,15 @@ public class MemberController {
 	
 	//로그인 성공시 사용자 아이디와 닉네임을 세션 등록
 	@RequestMapping(value="/userManage/welcome",method=RequestMethod.POST)
-	public void getWelcomeView(HttpSession session,Model model) {
+	public String getWelcomeView(HttpSession session,Model model) {
 		
 		String userid = (String)session.getAttribute("userid");
 		String username = (String)session.getAttribute("username");
 
 		model.addAttribute("userid", userid);
 		model.addAttribute("username", username);
+		
+		return "redirect:/main";
 	}
 	
 	//로그아웃

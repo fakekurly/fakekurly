@@ -18,19 +18,6 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	BoardMapper mapper; 
 	
-	//게시물 목록 보기
-	@Override
-	public List<BoardVO> list(Map<String,Object> data) throws Exception {
-		
-		return mapper.list(data);
-	}
-	
-	//전체 게시물 갯수 계산
-	@Override
-	public int totalCount(Map<String,Object> data) throws Exception{
-		return mapper.totalCount(data);
-	}
-
 	//게시물 내용 보기
 	@Override
 	public BoardVO view(int seqno) throws Exception {

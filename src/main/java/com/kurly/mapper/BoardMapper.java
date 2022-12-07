@@ -13,12 +13,7 @@ import com.kurly.dto.ReplyVO;
 @Mapper
 public interface BoardMapper {
 
-	//게시물 목록보기
-	public List<BoardVO> list(Map<String,Object> data) throws Exception;
 
-	//전체 게시물 갯수 계산
-	public int totalCount(Map<String,Object> data) throws Exception;
-	
 	//게시물 내용 보기
 	public BoardVO view(int seqno) throws Exception;
 	
