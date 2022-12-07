@@ -48,7 +48,7 @@ if( regExp.test(obj.value) ){
 function findProduct(){
 	
 	var findKeyword =  $("#findKeyword").val();
-	location.href = 'searchProduct.jsp?page=1&findKeyword=' + findKeyword;
+	location.href = '/collections/searchProduct?keyword=' + findKeyword;
 }
 
 function press(){
