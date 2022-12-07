@@ -269,4 +269,11 @@ public class ProductController {
 		 
 		 return result;
 	}
+	
+	@RequestMapping("/collections/searchNotProduct")
+	public void GetSearchNotProduct(Model model, 
+					@RequestParam(name="keyword") String keyword) {
+	
+		model.addAttribute("keyword", keyword);
+	}
 }

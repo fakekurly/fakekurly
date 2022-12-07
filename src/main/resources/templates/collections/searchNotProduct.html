@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
+
+<title>마켓컬리 :: 내일의 장보기, 마켓컬리</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" type="text/css" th:href="@{/css/category_product.css}">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+$(document).ready(function(){
+	
+}
+
+/*]]>*/
+</script>
+
+</head>
+
+<body>
+<hr style="color: #E2E2E2; opacity: 30%;">
+<div id="contentPage">
+
+	<div id="content">
+		<br>
+		<!-- 메인 카테고리 -->
+		<div id="aboutSearch">
+			'<span class="searchKeyword"> [[ ${keyword}]] </span>' 에 대한 검색 결과
+		</div>
+		
+		<div id="notFound">
+			<img src="/icons/search.png" id="notFoundImg">
+			<div id="notFoundText">
+				검색된 상품이 없습니다.
+			</div>
+		</div>
+		
+	</div>
+	
+</div>
+
+</body>
+</html>

@@ -17,7 +17,13 @@
 /*<![CDATA[*/
 $(document).ready(function(){
 	
+	
 	keyword = [[${keyword}]];
+	countProductCheck = [[${countSearchProduct}]];
+	
+	if(countProductCheck == 0){
+		location.href = "/collections/searchNotProduct?keyword=" + keyword;
+	}
 	
 	$(".categoryCheck").change(function(){
 		
