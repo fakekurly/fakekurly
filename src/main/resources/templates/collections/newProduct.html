@@ -56,7 +56,7 @@ $(document).ready(function(){
 				html += '<div id="productInfoArea">'
 				for(i = 0; i < categoryProduct.length; i++){
 					html += '<div>'
-					html += '<a href="#"><div class="productInfo">'
+						html += '<a href="/product/productdetail?pcode=' + categoryProduct[i].pcode + '&page=1"><div class="productInfo">'
 					html += '<div><img src="/images/' + categoryProduct[i].stored_filename + '" class="productImage"/></div>'
 					html += '<div class="productName"><span>' + categoryProduct[i].pname + '</span></div>'
 					
@@ -185,7 +185,8 @@ function priceToString(price) {
 				
 				<div id="productInfoArea">
 					<div th:each="newProduct : ${newProduct}" class="productList">
-						<div class="productInfo" onclick="location.href='#';"> <!-- 자세한 상품정보 링크 넣기 -->
+					<a th:href="@{'/product/productdetail?pcode=' + ${newProduct.pcode} + '&page=1'}">
+						<div class="productInfo"> <!-- 자세한 상품정보 링크 넣기 -->
 								<div><img th:src="@{'/images/' + ${newProduct.stored_filename}}" class="productImage"/></div>
 								<div class="productName"><span th:text="${newProduct.pname}" ></span></div>
 									<div th:if="${newProduct.discount == 0}" class="productPrice">
@@ -199,7 +200,7 @@ function priceToString(price) {
 									</div>
 								<div class="productPostScript"><span th:text="${newProduct.postscript}"></span></div>
 						</div>
-						
+					</a>	
 					</div><!-- productInfo 끝 -->
 					
 					<div th:if="${countNewProduct % 3 != 0}" class="productSpace"></div>

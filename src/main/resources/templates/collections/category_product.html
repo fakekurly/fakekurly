@@ -67,7 +67,7 @@ $(document).ready(function(){
 				html += '<div id="productInfoArea">'
 				for(i = 0; i < categoryProduct.length; i++){
 					html += '<div>'
-					html += '<a href="#"><div class="productInfo">'
+						html += '<a href="/product/productdetail?pcode=' + categoryProduct[i].pcode + '&page=1"><div class="productInfo">'
 					html += '<div><img src="/images/' + categoryProduct[i].stored_filename + '" class="productImage"/></div>'
 					html += '<div class="productName"><span>' + categoryProduct[i].pname + '</span></div>'
 					
@@ -227,7 +227,8 @@ function onErrorImage() {
 				
 				<div id="productInfoArea">
 					<div th:each="categoryProduct : ${categoryProduct}" class="productList">
-						<div class="productInfo" onclick="location.href='#';"> <!-- 자세한 상품정보 링크 넣기 -->
+					<a th:href="@{'/product/productdetail?pcode=' + ${categoryProduct.pcode} + '&page=1'}">
+						<div class="productInfo"> <!-- 자세한 상품정보 링크 넣기 -->
 								<div><img th:src="@{'/images/' + ${categoryProduct.stored_filename}}" class="productImage"/></div>
 								<div class="productName"><span th:text="${categoryProduct.pname}" ></span></div>
 									<div th:if="${categoryProduct.discount == 0}" class="productPrice">
@@ -241,7 +242,7 @@ function onErrorImage() {
 									</div>
 								<div class="productPostScript"><span th:text="${categoryProduct.postscript}"></span></div>
 						</div>
-						
+					</a>	
 					</div><!-- productInfo 끝 -->
 					
 					<div th:if="${ countProduct % 3 != 0}" class="productSpace"></div>

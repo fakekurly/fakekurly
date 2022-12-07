@@ -17,6 +17,8 @@
 /*<![CDATA[*/
 $(document).ready(function(){
 	
+	keyword = [[${keyword}]];
+	
 	$(".categoryCheck").change(function(){
 		
 		var category_array = Array();
@@ -33,15 +35,16 @@ $(document).ready(function(){
 		console.log(category_array);
 		
 		if(category_array.length == 0){
-			location.href = "/collections/bestProduct";
+			location.href = '/collections/searchProduct?keyword=' + keyword
 		}
 		
 		if(category_array.length > 0){
 	 		$.ajax({
-				url : "/collections/bestProductfilter",
+				url : "/collections/searchProductfilter",
 				type : "POST",
 				//datatype : "json",
 				data : {
+					keyword : keyword,
 					checkedCategory : category_array
 					}
 	 		})
@@ -56,7 +59,7 @@ $(document).ready(function(){
 				html += '<div id="productInfoArea">'
 				for(i = 0; i < categoryProduct.length; i++){
 					html += '<div>'
-						html += '<a href="/product/productdetail?pcode=' + categoryProduct[i].pcode + '&page=1"><div class="productInfo">'
+					html += '<a href="/product/productdetail?pcode=' + categoryProduct[i].pcode + '&page=1"><div class="productInfo">'
 					html += '<div><img src="/images/' + categoryProduct[i].stored_filename + '" class="productImage"/></div>'
 					html += '<div class="productName"><span>' + categoryProduct[i].pname + '</span></div>'
 					
@@ -97,7 +100,7 @@ $(document).ready(function(){
 				
 				var resetIcon = "";
 				
-				resetIcon += '<a href="/collections/bestProduct"><div id="resetFilter">'
+				resetIcon += '<a href="/collections/searchProduct?keyword=' + keyword + '"><div id="resetFilter">'
 				resetIcon += '<img src="/icons/reset.png" id="resetLogOn">'
 				resetIcon += '<div id="resetTitle" style="color: #666666;">초기화</div>'
 				resetIcon += '</div>'
@@ -130,8 +133,8 @@ function priceToString(price) {
 	<div id="content">
 		<br>
 		<!-- 메인 카테고리 -->
-		<div id="mainCategory">
-			베스트
+		<div id="aboutSearch">
+			'<span class="searchKeyword"> [[ ${keyword}]] </span>' 에 대한 검색 결과
 		</div>
 		
 		<!--카테고리 아래구역  -->
@@ -153,10 +156,10 @@ function priceToString(price) {
 						<div id="companyTitle">카테고리</div>
 						<div id="companyDrop">
 							<div id="companys">
-								<div th:each="categoryFilterBest : ${categoryFilterBest}" class="companyNames">
-									<input type="checkbox" th:field="*{categoryFilterBest}" th:value="${categoryFilterBest.category}" class="categoryCheck">
-									<label th:for="${categoryFilterBestStat.count}" th:text="${categoryFilterBest.cateName}" class="companyCheckLabel"></label> 
-									<p th:text="${categoryFilterBest.countCategoryProduct}" class="companyCount"></p>
+								<div th:each="categoryFilterSearch : ${categoryFilterSearch}" class="companyNames">
+									<input type="checkbox" th:field="*{categoryFilterSearch}" th:value="${categoryFilterSearch.category}" class="categoryCheck">
+									<label th:for="${categoryFilterSearchStat.count}" th:text="${categoryFilterSearch.cateName}" class="companyCheckLabel"></label> 
+									<p th:text="${categoryFilterSearch.countCategoryProduct}" class="companyCount"></p>
 								</div>
 							</div>
 						</div>
@@ -170,40 +173,40 @@ function priceToString(price) {
 			
 				<div id="sortArea">
 					<div id="productTotal"> <!-- 상품 건수 -->
-						총 [[ ${countBestProduct} ]] 건
+						총 [[ ${countSearchProduct} ]] 건
 					</div> <!-- 상품 건수  끝-->
 						<div id="sortOptions">
-							<div class="sortOption"><a th:href="@{'/collections/bestProduct?sortType=1'}" class="sortColor">추천순</a>&nbsp | </div>
-							<div class="sortOption"><a th:href="@{'/collections/bestProduct?sortType=2'}" class="sortColor">신상품순</a>&nbsp | </div>
-							<div class="sortOption"><a th:href="@{'/collections/bestProduct?sortType=3'}" class="sortColor">판매량순</a>&nbsp | </div>
-							<div class="sortOption"><a th:href="@{'/collections/bestProduct?sortType=4'}" class="sortColor">혜택순</a>&nbsp | </div>
-							<div class="sortOption"><a th:href="@{'/collections/bestProduct?sortType=5'}" class="sortColor">낮은 가격순</a>&nbsp | </div>
-							<div class="sortOption"><a th:href="@{'/collections/bestProduct?sortType=6'}" class="sortColor">높은 가격순</a></div>	
+							<div class="sortOption"><a th:href="@{'/collections/searchProduct?keyword=' + ${keyword} + '&sortType=1'}" class="sortColor">추천순</a>&nbsp | </div>
+							<div class="sortOption"><a th:href="@{'/collections/searchProduct?keyword=' + ${keyword} + '&sortType=2'}" class="sortColor">신상품순</a>&nbsp | </div>
+							<div class="sortOption"><a th:href="@{'/collections/searchProduct?keyword=' + ${keyword} + '&sortType=3'}" class="sortColor">판매량순</a>&nbsp | </div>
+							<div class="sortOption"><a th:href="@{'/collections/searchProduct?keyword=' + ${keyword} + '&sortType=4'}" class="sortColor">혜택순</a>&nbsp | </div>
+							<div class="sortOption"><a th:href="@{'/collections/searchProduct?keyword=' + ${keyword} + '&sortType=5'}" class="sortColor">낮은 가격순</a>&nbsp | </div>
+							<div class="sortOption"><a th:href="@{'/collections/searchProduct?keyword=' + ${keyword} + '&sortType=6'}" class="sortColor">높은 가격순</a></div>	
 						</div>
 					
 				</div>
 				
 				<div id="productInfoArea">
-					<div th:each="bestProduct : ${bestProduct}" class="productList">
-					<a th:href="@{'/product/productdetail?pcode=' + ${bestProduct.pcode} + '&page=1'}">
+					<div th:each="searchProduct : ${searchProduct}" class="productList">
+					<a th:href="@{'/product/productdetail?pcode=' + ${searchProduct.pcode} + '&page=1'}">
 						<div class="productInfo"> <!-- 자세한 상품정보 링크 넣기 -->
-								<div><img th:src="@{'/images/' + ${bestProduct.stored_filename}}" class="productImage"/></div>
-								<div class="productName"><span th:text="${bestProduct.pname}" ></span></div>
-									<div th:if="${bestProduct.discount == 0}" class="productPrice">
-										<span th:text="${#numbers.formatInteger(bestProduct.price, 1, 'COMMA') + '원'}"></span>
+								<div><img th:src="@{'/images/' + ${searchProduct.stored_filename}}" class="productImage"/></div>
+								<div class="productName"><span th:text="${searchProduct.pname}" ></span></div>
+									<div th:if="${searchProduct.discount == 0}" class="productPrice">
+										<span th:text="${#numbers.formatInteger(searchProduct.price, 1, 'COMMA') + '원'}"></span>
 									</div>
-									<div th:unless="${bestProduct.discount == 0}" class="productPrice">
-										<span th:text="${bestProduct.discount + '%'}" style="color: #FA622F"></span>
-										<span th:text="${#numbers.formatInteger((bestProduct.price * (1-bestProduct.discount/100.00)), 1, 'COMMA') + '원'}"></span>
+									<div th:unless="${searchProduct.discount == 0}" class="productPrice">
+										<span th:text="${searchProduct.discount + '%'}" style="color: #FA622F"></span>
+										<span th:text="${#numbers.formatInteger((searchProduct.price * (1-searchProduct.discount/100.00)), 1, 'COMMA') + '원'}"></span>
 										<br>
-										<span th:text="${#numbers.formatInteger(bestProduct.price, 1, 'COMMA') + '원'}" class="productPricePre"></span>
+										<span th:text="${#numbers.formatInteger(searchProduct.price, 1, 'COMMA') + '원'}" class="productPricePre"></span>
 									</div>
-								<div class="productPostScript"><span th:text="${bestProduct.postscript}"></span></div>
+								<div class="productPostScript"><span th:text="${searchProduct.postscript}"></span></div>
 						</div>
 					</a>	
 					</div><!-- productInfo 끝 -->
 					
-					<div th:if="${countBestProduct % 3 != 0}" class="productSpace"></div>
+					<div th:if="${countSearchProduct % 3 != 0}" class="productSpace"></div>
 
 					
 				</div> <!-- productInfoArea 끝 -->
