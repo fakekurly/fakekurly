@@ -409,5 +409,40 @@ input.categoryCheck{
 	margin-top:2px;
 }
 
+#notFound{
+	
+	position: absolute;
+	width: 1050px;
+	height: 480px;
+	left: calc(50% - 1050px/2);
+}
+
+#notFoundText{
+	position: absolute;
+	width: 159.03px;
+	height: 24px;
+	left: calc(50% - 159.03px/2 + 0.09px);
+	top: 162px;
+	
+	font-weight: 400;
+	font-size: 15px;
+	line-height: 18px;
+	/* or 123% */
+	
+	display: flex;
+	align-items: center;
+	
+	color: #B5B5B5;
+	
+}
+
+#notFoundImg{
+	position: absolute;
+	width: 48px;
+	height: 48px;
+	left: calc(50% - 48px/2);
+	top: 100px;
+	filter: invert(99%) sepia(0%) saturate(1162%) hue-rotate(242deg) brightness(113%) contrast(73%);
+}
 
   
