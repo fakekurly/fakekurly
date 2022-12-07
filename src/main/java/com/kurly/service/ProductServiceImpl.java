@@ -134,4 +134,26 @@ public class ProductServiceImpl implements ProductService {
 		return mapper.allCategory();
 	}
 	
+		//상품 찾기
+	//상품 찾기 목록
+	@Override
+	public List<ProductVO> searchProduct(Map<String,Object> data) throws Exception{
+		
+		return mapper.searchProduct(data);
+	};
+	
+	//상품 찾기 개수 세기
+	@Override
+	public int countSearchProduct(Map<String,Object> data) throws Exception{
+		
+		return mapper.countSearchProduct(data);
+	};
+	
+	//상품 찾기 카테고리 목록 가져오기
+	@Override
+	public List<CategoryVO> categoryFilterSearch(Map<String,Object> data) throws Exception{
+		
+		return mapper.categoryFilterSearch(data);
+	};
+	
 }

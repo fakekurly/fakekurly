@@ -221,4 +221,52 @@ public class ProductController {
 		
 		model.addAttribute("allCategory", service.allCategory());
 	}
+	
+	//searchProduct
+	@RequestMapping("/collections/searchProduct")
+	public void GetSearchProductList(Model model,
+					 @RequestParam(name="keyword") String keyword,
+					 @RequestParam(name="sortType", required=false) String sortType,
+					 @RequestParam(value="checkedCategory", required=false) List<String> checkedBrand
+													) throws Exception{
+		
+		log.info("keyword확인: " + keyword);
+		
+		Map<String, Object> data = new HashMap<>();
+		data.put("keyword", keyword);
+		data.put("sortType", sortType);
+		
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("categoryFilterSearch", service.categoryFilterSearch(data));
+		model.addAttribute("countSearchProduct", service.countSearchProduct(data));
+		model.addAttribute("searchProduct", service.searchProduct(data));
+		
+		log.info("model 확인" + model);	
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping("/collections/searchProductfilter")
+	public Map<String, Object> GetSearchProductfilter(Model model,
+				@RequestParam(name="keyword") String keyword,
+				@RequestParam(name="sortType", required=false) String sortType,
+				@RequestParam(value="checkedCategory[]") List<String> checkedCategory
+													) throws Exception{
+
+		//log.info("배열 확인 : " + checkedCategory);
+		
+		Map<String, Object> data = new HashMap<>();
+		data.put("keyword", keyword);
+		data.put("sortType", sortType);
+		data.put("checkedCategory", checkedCategory);
+		
+		//log.info("데이터 :" + data); 
+		
+		 Map<String, Object> result = new HashMap<>();
+		 result.put("categoryProduct", service.searchProduct(data));
+ 
+		//log.info("결과 :" + result);
+		 
+		 return result;
+	}
 }
