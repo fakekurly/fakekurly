@@ -128,6 +128,14 @@ jungin-2 : package : com.kurly
 			
 ★ 상품 페이지 관련 폴더를 통해 사용한 tbl_category, tbl_product 확인 가능 → tbl_product에 (order_quantity, number) 추가함
 tbl_category에 항목이 많은 이유는 서브 카테고리를 넣어놨기 때문 → tier가 1인 행만 넣어도 가능(서브 뺌)
+
+minnjae
+----------------
+tbl_file
+filesize number
+userid varchar2
+seqno number 추가
+
 		    
 		
 
