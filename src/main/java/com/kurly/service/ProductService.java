@@ -60,6 +60,9 @@ public interface ProductService {
 	
 	//메인 카테고리 목록 가져오기
 	public List<CategoryVO> categoryFilterBest() throws Exception;
+	
+	//카데고리 전체 목록 가져오기
+	public List<CategoryVO> allCategory() throws Exception;
 	 
 	
 }
